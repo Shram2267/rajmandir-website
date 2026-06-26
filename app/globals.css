@@ -45,6 +45,17 @@
   box-sizing: border-box;
 }
 
+/* Show a hand cursor on all interactive buttons (native <button> defaults to an
+   arrow; Tailwind's reset doesn't change it). Disabled buttons keep the default. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+label:has(> input[type="file"]) {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
 html,
 body {
   margin: 0;
@@ -118,6 +129,14 @@ body {
     #fbf6ee 14px,
     #fbf6ee 28px
   );
+}
+
+/* Orange food-icon hero texture (Home / About / Contact heroes) */
+.rm-hero-food {
+  background-color: #f5821f;
+  background-image: url("/hero-food-pattern.svg");
+  background-size: 300px 300px;
+  background-repeat: repeat;
 }
 
 /* Faint grid used for the map placeholders */

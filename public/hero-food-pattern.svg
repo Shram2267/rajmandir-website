@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <g fill="none" stroke="#d96b10" stroke-opacity="0.45" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- burger -->
+    <g transform="translate(26,30)">
+      <path d="M2 15 C2 4 38 4 38 15" />
+      <path d="M2 15 H38" />
+      <path d="M0 20 C9 26 31 26 40 20" />
+      <rect x="3" y="24" width="34" height="5" rx="2.5" />
+      <path d="M2 32 C2 40 38 40 38 32" />
+      <circle cx="13" cy="9" r="0.8" /><circle cx="20" cy="8" r="0.8" /><circle cx="27" cy="9" r="0.8" />
+    </g>
+
+    <!-- fries -->
+    <g transform="translate(170,24)">
+      <path d="M6 15 L10 38 H30 L34 15 Z" />
+      <path d="M6 22 H34" />
+      <path d="M13 15 V4 M20 15 V0 M27 15 V5" />
+    </g>
+
+    <!-- pizza slice -->
+    <g transform="translate(244,40)">
+      <path d="M16 2 L2 32 H30 Z" />
+      <path d="M5 26 Q16 31 27 26" />
+      <circle cx="12" cy="20" r="1.6" /><circle cx="20" cy="16" r="1.6" /><circle cx="16" cy="26" r="1.6" />
+    </g>
+
+    <!-- hot dog -->
+    <g transform="translate(36,110)">
+      <rect x="2" y="9" width="42" height="13" rx="6.5" />
+      <path d="M7 15.5 H39" />
+      <path d="M9 13 q4 5 8 0 q4 5 8 0 q4 5 8 0" />
+    </g>
+
+    <!-- coffee cup -->
+    <g transform="translate(122,124)">
+      <path d="M5 9 H31" />
+      <path d="M7 9 L10 35 H26 L29 9 Z" />
+      <path d="M8 17 H28" />
+    </g>
+
+    <!-- donut -->
+    <g transform="translate(232,150)">
+      <circle cx="18" cy="18" r="16" />
+      <circle cx="18" cy="18" r="6" />
+      <path d="M11 8 l2 2 M26 10 l-2 2 M28 22 l-2 -1 M9 24 l2 -1 M18 3 v2" />
+    </g>
+
+    <!-- soda bottle -->
+    <g transform="translate(34,182)">
+      <path d="M13 3 h6 v4 q4 2 4 8 v22 a3 3 0 0 1 -3 3 h-8 a3 3 0 0 1 -3 -3 v-22 q0 -6 4 -8 z" />
+      <path d="M10 22 h12 M10 30 h12" />
+    </g>
+
+    <!-- ice cream cone -->
+    <g transform="translate(96,226)">
+      <circle cx="14" cy="11" r="9" />
+      <path d="M5 15 L14 37 L23 15" />
+      <path d="M9 21 h10 M12 27 h6" />
+    </g>
+
+    <!-- cupcake -->
+    <g transform="translate(196,234)">
+      <path d="M6 17 L9 35 H27 L30 17 Z" />
+      <path d="M5 17 Q18 2 31 17" />
+      <path d="M18 3 v4" />
+      <circle cx="18" cy="3" r="2" />
+    </g>
+
+    <!-- small donut (fills gap) -->
+    <g transform="translate(252,212)">
+      <circle cx="12" cy="12" r="11" />
+      <circle cx="12" cy="12" r="4" />
+    </g>
+  </g>
+</svg>

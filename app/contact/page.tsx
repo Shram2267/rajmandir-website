@@ -11,9 +11,9 @@ export default function ContactPage() {
   return (
     <div className="bg-white">
       {/* hero */}
-      <section className="rm-stripe border-b border-line text-center px-5 lg:px-[44px] py-9 lg:py-[60px]">
-        <div className="font-hand text-[20px] lg:text-[24px] text-brand font-bold">Hamse Judein</div>
-        <h1 className="text-[27px] lg:text-[46px] font-extrabold leading-[1.1] max-w-[760px] mx-auto mt-2 tracking-[-.5px] text-balance">
+      <section className="rm-hero-food border-b border-line text-center px-5 lg:px-[44px] py-9 lg:py-[60px]">
+        <div className="font-hand text-[20px] lg:text-[24px] text-white font-bold">Hamse Judein</div>
+        <h1 className="text-[27px] lg:text-[46px] font-extrabold leading-[1.1] max-w-[760px] mx-auto mt-2 tracking-[-.5px] text-balance text-white">
           Aapke har sawaal aur sujhaav ke liye, hum hamesha haazir hain.
         </h1>
       </section>

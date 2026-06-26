@@ -37,64 +37,30 @@ export default function HomeView() {
   return (
     <div>
       {/* ---------------- Hero ---------------- */}
-      <section className="rm-stripe border-b border-line">
-        <div className="mx-auto w-full max-w-[1180px] px-4 lg:px-6 flex flex-col lg:flex-row gap-8 lg:gap-0 py-8 lg:py-0">
-          <div className="lg:flex-[1.25] lg:py-[54px] lg:pr-[44px] flex flex-col justify-center gap-4">
-            <div className="font-hand text-[20px] lg:text-[24px] text-brand font-bold">
+      <section className="rm-hero-food border-b border-line">
+        <div className="mx-auto w-full max-w-[1180px] px-4 lg:px-6 py-9 lg:py-14 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-10">
+          <div className="lg:flex-1">
+            <div className="font-hand text-[20px] lg:text-[24px] text-white font-bold mb-3">
               Is hafte ki mega bachat ✦
             </div>
-            <h1 className="text-[31px] lg:text-[52px] leading-[1.04] lg:leading-[1.02] font-extrabold m-0 tracking-[-.5px] lg:tracking-[-1px] max-w-[560px] text-balance">
-              Mahine ka saara saaman, <span className="text-brand">ek chhat</span> ke neeche.
+            <h1 className="text-[31px] lg:text-[52px] leading-[1.04] lg:leading-[1.05] font-extrabold m-0 tracking-[-.5px] lg:tracking-[-1px] max-w-[760px] text-balance text-white">
+              Mahine ka saara saaman, <span className="text-ink">ek chhat</span> ke neeche.
             </h1>
-            <p className="text-[14px] lg:text-[17px] text-stone-600 max-w-[440px] m-0 leading-[1.5]">
+            <p className="text-[14px] lg:text-[17px] text-white/90 max-w-[520px] m-0 leading-[1.5] mt-5">
               Browse aaj ke offers at your nearest Rajmandir store. Wholesale rate ka hypermarket —
               sab fresh, sab ek jagah.
             </p>
-            <div className="flex flex-col sm:flex-row gap-[13px] mt-2 flex-wrap">
-              <button
-                type="button"
-                onClick={findOffersNearMe}
-                disabled={locating}
-                className="bg-brand text-white font-extrabold text-[15px] lg:text-[16px] px-7 py-[15px] rounded-[40px] text-center shadow-[0_12px_30px_rgba(232,73,43,.32)] disabled:opacity-70"
-              >
-                {locating ? "📍 Locating…" : "See Offers Near Me →"}
-              </button>
-              <StoreMenu variant="ghost" />
-            </div>
           </div>
-
-          {/* offers summary card */}
-          <div className="lg:flex-[.85] lg:py-10 flex items-center">
-            <div className="w-full bg-white border border-line rounded-[20px] shadow-[0_18px_40px_rgba(33,27,23,.12)] overflow-hidden">
-              <div className="bg-ink text-white px-5 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-[9px]">
-                  <span className="text-[17px]">📍</span>
-                  <span className="leading-[1.1]">
-                    <span className="block text-[10px] tracking-[.5px] text-stone-300 uppercase font-bold">
-                      Showing offers for
-                    </span>
-                    <span className="block text-[16px] font-extrabold">{store.name}</span>
-                  </span>
-                </div>
-                <StoreMenu variant="switchMini" />
-              </div>
-              <div className="px-5 py-[18px]">
-                <div className="flex items-center gap-[7px] text-[12px] text-leaf font-bold mb-[14px]">
-                  <span className="w-[7px] h-[7px] rounded-full bg-leaf" />
-                  Refreshed daily · Updated today
-                </div>
-                <div className="flex gap-[10px]">
-                  <div className="flex-1 bg-cream rounded-[13px] p-[14px] text-center">
-                    <div className="font-hand text-[34px] font-bold text-brand leading-none">{offers.length > 0 ? offers.length : "120+"}</div>
-                    <div className="text-[12px] text-stone-500 mt-[3px]">live offers</div>
-                  </div>
-                  <div className="flex-1 bg-cream rounded-[13px] p-[14px] text-center">
-                    <div className="font-hand text-[34px] font-bold text-brand leading-none">10–10</div>
-                    <div className="text-[12px] text-stone-500 mt-[3px]">open daily</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="flex flex-col items-start lg:items-end gap-[13px] shrink-0">
+            <button
+              type="button"
+              onClick={findOffersNearMe}
+              disabled={locating}
+              className="bg-brand text-white font-extrabold text-[15px] lg:text-[16px] px-7 py-[15px] rounded-[40px] text-center shadow-[0_12px_30px_rgba(232,73,43,.32)] disabled:opacity-70"
+            >
+              {locating ? "📍 Locating…" : "See Offers Near Me →"}
+            </button>
+            <StoreMenu variant="ghost" />
           </div>
         </div>
       </section>
