@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette ------------------------------------------------ */
+  --color-sand: #ece3d6; /* page background */
+  --color-cream: #fbf6ee; /* card / panel surface */
+  --color-blush: #fbf1ec; /* soft red-tinted surface */
+  --color-peach: #f8e6df; /* hero stripe */
+  --color-linen: #f7efe6; /* offer-card image stripe */
+
+  --color-ink: #211b17; /* primary text / dark sections */
+  --color-ink-soft: #4a413a; /* dark borders / dark muted */
+
+  --color-brand: #e8492b; /* primary red-orange */
+  --color-brand-deep: #c73a1f; /* deeper red */
+  --color-brand-tint: #ffb6a6; /* light red on dark */
+  --color-brand-wash: #fbe7df; /* red wash chip bg */
+
+  --color-stone-600: #6e6258;
+  --color-stone-500: #8a7f73;
+  --color-stone-400: #a2937f;
+  --color-stone-350: #9f9488;
+  --color-stone-300: #c9bcae;
+  --color-stone-250: #bcae9d;
+
+  --color-line: #eadfd2; /* hairline borders on cream */
+  --color-line-strong: #e0d4c4;
+  --color-line-blush: #f0ddd4;
+  --color-line-mute: #d8ccbd;
+
+  --color-leaf: #2e9e5b; /* available green */
+  --color-leaf-deep: #1e7a45;
+  --color-leaf-wash: #e6f4ec;
+  --color-leaf-mute: #b6a899;
+
+  /* Fonts (wired up via next/font CSS variables) ----------------- */
+  --font-sans: var(--font-hanken), "Hanken Grotesk", system-ui, sans-serif;
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-hand: var(--font-caveat), "Caveat", cursive;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(33, 27, 23, 0.18);
+  border-radius: 9px;
+}
+
+/* Pulsing map pin (home + stores) */
+@keyframes rmPin {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(232, 73, 43, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(232, 73, 43, 0);
+  }
+}
+.rm-pin {
+  animation: rmPin 2.4s infinite;
+}
+
+/* Diagonal stripe backgrounds reused across hero / about panels */
+.rm-stripe {
+  background: repeating-linear-gradient(
+    135deg,
+    #fbf6ee,
+    #fbf6ee 18px,
+    #f8e6df 18px,
+    #f8e6df 36px
+  );
+}
+.rm-stripe-sm {
+  background: repeating-linear-gradient(
+    135deg,
+    #fbf6ee,
+    #fbf6ee 16px,
+    #f8e6df 16px,
+    #f8e6df 32px
+  );
+}
+.rm-stripe-linen {
+  background: repeating-linear-gradient(
+    135deg,
+    #f7efe6,
+    #f7efe6 16px,
+    #fbf6ee 16px,
+    #fbf6ee 32px
+  );
+}
+.rm-card-stripe {
+  background: repeating-linear-gradient(
+    135deg,
+    #f7efe6,
+    #f7efe6 14px,
+    #fbf6ee 14px,
+    #fbf6ee 28px
+  );
+}
+
+/* Faint grid used for the map placeholders */
+.rm-grid {
+  background-image: repeating-linear-gradient(
+      0deg,
+      rgba(33, 27, 23, 0.045),
+      rgba(33, 27, 23, 0.045) 1px,
+      transparent 1px,
+      transparent 34px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(33, 27, 23, 0.045),
+      rgba(33, 27, 23, 0.045) 1px,
+      transparent 1px,
+      transparent 34px
+    );
+}
+
+/* Scrolling announcement marquee (two copies translate -50% for a seamless loop) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 45s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+/* Visually hidden, still read by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Hide scrollbar for horizontal scroll rails on mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-pop {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-fade-in {
+  animation: modal-fade 0.2s ease-out forwards;
+}
+.animate-modal-pop {
+  animation: modal-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+dialog[open] {
+  animation: modal-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+dialog[open]::backdrop {
+  animation: modal-fade 0.2s ease-out forwards;
+}
+
+/* Typography for static content pages (legal, careers) */
+.doc-prose {
+  color: var(--color-ink-soft);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.doc-prose h2 {
+  color: var(--color-ink);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin: 32px 0 10px;
+}
+.doc-prose h2:first-child {
+  margin-top: 0;
+}
+.doc-prose h3 {
+  color: var(--color-ink);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 22px 0 6px;
+}
+.doc-prose p {
+  margin: 0 0 14px;
+}
+.doc-prose ul {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  list-style: disc;
+}
+.doc-prose li {
+  margin: 0 0 7px;
+}
+.doc-prose a {
+  color: var(--color-brand-deep);
+  font-weight: 600;
+}
+.doc-prose a:hover {
+  text-decoration: underline;
+}
+.doc-prose strong {
+  color: var(--color-ink);
+  font-weight: 700;
+}

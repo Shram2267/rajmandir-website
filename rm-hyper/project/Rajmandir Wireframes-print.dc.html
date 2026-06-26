@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&family=Architects+Daughter&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: 1180px 1760px; margin: 0; }
+    #rmbar { display: none !important; }
+    #rmframes { display: block !important; padding: 24px !important; }
+    #rmframes > div { break-after: page; break-inside: avoid; margin: 0 auto 0 !important; }
+    #rmframes > div:last-of-type { break-after: auto; }
+  }
+</style>
+</helmet>
+
+<div style="min-width:100%;min-height:100vh;background:#e7e5df;font-family:'Patrick Hand',cursive;color:#1f1f1f;">
+
+  <!-- TOP TOOLBAR -->
+  <div id="rmbar" style="position:sticky;top:0;z-index:50;background:#1f1f1f;color:#fff;padding:14px 28px;display:flex;align-items:center;gap:20px;box-shadow:0 2px 8px rgba(0,0,0,.25);">
+    <div style="font-family:'Caveat',cursive;font-size:24px;font-weight:700;letter-spacing:.5px;">Rajmandir Hypermarket — Wireframes</div>
+    <div style="flex:1;"></div>
+    <div style="display:flex;gap:10px;">
+      <button onClick="{{ goHome }}" style="{{ tabHome }}">Homepage</button>
+      <button onClick="{{ goOffers }}" style="{{ tabOffers }}">Offers</button>
+      <button onClick="{{ goStores }}" style="{{ tabStores }}">Store Locator</button>
+      <button onClick="{{ goAbout }}" style="{{ tabAbout }}">About Us</button>
+    </div>
+  </div>
+
+  <div id="rmframes" style="padding:36px 24px 64px;display:flex;justify-content:center;">
+
+    <!-- ===================== HOMEPAGE ===================== -->
+    <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-family:'Caveat',cursive;font-size:20px;color:#777;">01 — Homepage</div>
+      <div style="width:1080px;background:#fff;border:2px solid #1f1f1f;border-radius:3px;box-shadow:0 6px 24px rgba(0,0,0,.12);overflow:hidden;">
+
+        <!-- utility bar -->
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 22px;background:#fbe9e2;border-bottom:1.5px solid #1f1f1f;font-size:15px;">
+          <span>📍 Delhi · 8 Stores Open Now</span>
+          <span style="font-family:'Caveat',cursive;font-size:20px;color:#E5471B;font-weight:700;">Wholesale Rate ka Hypermarket</span>
+          <span>Helpline: 1800-XXX-XXX</span>
+        </div>
+
+        <!-- header -->
+        <div style="display:flex;align-items:center;gap:18px;padding:16px 22px;border-bottom:2px solid #1f1f1f;">
+          <div style="border:2px solid #1f1f1f;border-radius:3px;padding:8px 14px;font-family:'Caveat',cursive;font-weight:700;font-size:22px;line-height:1;">RAJMANDIR<br><span style="font-size:13px;letter-spacing:2px;">HYPERMARKET</span></div>
+          <div style="flex:1;display:flex;align-items:center;border:2px solid #1f1f1f;border-radius:30px;padding:9px 18px;color:#888;font-size:16px;">🔍 &nbsp;Search 18,000+ products…</div>
+          <div style="display:flex;gap:18px;font-size:17px;">
+            <span style="border-bottom:2px solid #E5471B;padding-bottom:2px;">Home</span>
+            <span>Offers</span><span>Stores</span><span>About</span>
+          </div>
+          <div style="background:#E5471B;color:#fff;border:2px solid #1f1f1f;border-radius:4px;padding:9px 16px;font-size:15px;">⬇ Download App</div>
+        </div>
+
+        <!-- hero -->
+        <div style="display:flex;gap:0;border-bottom:2px solid #1f1f1f;">
+          <div style="flex:1.3;padding:40px 36px;display:flex;flex-direction:column;justify-content:center;gap:14px;background:repeating-linear-gradient(135deg,#fff,#fff 22px,#fcf3ef 22px,#fcf3ef 44px);">
+            <div style="font-family:'Caveat',cursive;font-size:22px;color:#E5471B;font-weight:700;">★ Is Hafte ki Mega Bachat</div>
+            <div style="font-family:'Caveat',cursive;font-size:54px;font-weight:700;line-height:.95;">Mahine ka Saara<br>Saaman, Wholesale<br>Daam Pe.</div>
+            <div style="font-size:17px;color:#555;max-width:380px;">Upto 50% off on staples, dairy & daily needs. Stock up for the whole family.</div>
+            <div style="display:flex;gap:12px;margin-top:8px;">
+              <div style="background:#E5471B;color:#fff;border:2px solid #1f1f1f;border-radius:4px;padding:12px 22px;font-size:17px;">See Today's Offers →</div>
+              <div style="border:2px solid #1f1f1f;border-radius:4px;padding:12px 22px;font-size:17px;">Find a Store</div>
+            </div>
+          </div>
+          <div style="flex:1;border-left:2px dashed #bbb;background:repeating-linear-gradient(45deg,#eee,#eee 11px,#f7f7f7 11px,#f7f7f7 22px);display:flex;align-items:center;justify-content:center;min-height:300px;">
+            <span style="font-family:monospace;font-size:14px;color:#999;text-align:center;">[ hero image ]<br>festive grocery haul /<br>store shot</span>
+          </div>
+        </div>
+
+        <!-- trust strip -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid #1f1f1f;">
+          <div style="padding:18px;text-align:center;border-right:1.5px solid #ddd;"><div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#E5471B;">18,000+</div><div style="font-size:14px;color:#666;">Products</div></div>
+          <div style="padding:18px;text-align:center;border-right:1.5px solid #ddd;"><div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#E5471B;">1,000+</div><div style="font-size:14px;color:#666;">Brands</div></div>
+          <div style="padding:18px;text-align:center;border-right:1.5px solid #ddd;"><div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#E5471B;">8</div><div style="font-size:14px;color:#666;">Stores in Delhi</div></div>
+          <div style="padding:18px;text-align:center;"><div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#E5471B;">7 Days</div><div style="font-size:14px;color:#666;">Open a Week</div></div>
+        </div>
+
+        <!-- categories -->
+        <div style="padding:28px 22px;border-bottom:2px solid #1f1f1f;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
+            <div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;">Shop by Category</div>
+            <span style="font-size:15px;color:#E5471B;">View all →</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;">
+            <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+              <div style="border:2px solid #1f1f1f;border-radius:4px;padding:14px 8px;text-align:center;">
+                <div style="height:54px;border:2px dashed #bbb;border-radius:50%;width:54px;margin:0 auto 8px;background:repeating-linear-gradient(45deg,#eee,#eee 7px,#f7f7f7 7px,#f7f7f7 14px);"></div>
+                <div style="font-size:15px;">{{ c }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- todays deals -->
+        <div style="padding:28px 22px;border-bottom:2px solid #1f1f1f;background:#fcf3ef;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
+            <div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#E5471B;">🔥 Aaj ke Deals</div>
+            <span style="font-size:15px;">Ends in 06:42:18</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+            <sc-for list="{{ deals }}" as="d" hint-placeholder-count="4">
+              <div style="border:2px solid #1f1f1f;border-radius:4px;background:#fff;overflow:hidden;">
+                <div style="height:120px;background:repeating-linear-gradient(45deg,#eee,#eee 10px,#f7f7f7 10px,#f7f7f7 20px);border-bottom:2px dashed #bbb;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:12px;color:#999;">[ product ]</div>
+                <div style="padding:10px 12px;">
+                  <div style="background:#E5471B;color:#fff;display:inline-block;font-size:12px;padding:2px 7px;border-radius:3px;margin-bottom:5px;">{{ d.off }} OFF</div>
+                  <div style="font-size:15px;line-height:1.2;">{{ d.name }}</div>
+                  <div style="margin-top:6px;"><span style="font-family:'Caveat',cursive;font-size:22px;font-weight:700;">{{ d.price }}</span> <span style="color:#999;text-decoration:line-through;font-size:14px;">{{ d.mrp }}</span></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- store strip -->
+        <div style="display:flex;border-bottom:2px solid #1f1f1f;">
+          <div style="flex:1;background:repeating-linear-gradient(45deg,#eee,#eee 12px,#f7f7f7 12px,#f7f7f7 24px);min-height:200px;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:13px;color:#999;border-right:2px dashed #bbb;">[ map of Delhi · store pins ]</div>
+          <div style="flex:1;padding:24px;">
+            <div style="font-family:'Caveat',cursive;font-size:28px;font-weight:700;margin-bottom:8px;">Apne Nazdeeki Store</div>
+            <div style="font-size:15px;color:#555;margin-bottom:14px;">Rohini · Pitampura · Burari · Rani Bagh · Lok Vihar · DC Chowk · Prashant Vihar · Budh Vihar</div>
+            <div style="border:2px solid #1f1f1f;border-radius:4px;display:inline-block;padding:10px 18px;font-size:16px;">📍 Locate Nearest Store →</div>
+          </div>
+        </div>
+
+        <!-- app cta -->
+        <div style="padding:30px 22px;background:#1f1f1f;color:#fff;display:flex;align-items:center;gap:24px;border-bottom:2px solid #1f1f1f;">
+          <div style="flex:1;">
+            <div style="font-family:'Caveat',cursive;font-size:32px;font-weight:700;">Ghar baithe order karein</div>
+            <div style="font-size:15px;color:#ccc;">Download the Rajmandir app for offers, lists & doorstep delivery.</div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <div style="border:2px solid #fff;border-radius:5px;padding:10px 18px;font-size:14px;">▶ Play Store</div>
+            <div style="border:2px solid #fff;border-radius:5px;padding:10px 18px;font-size:14px;">🍎 App Store</div>
+          </div>
+        </div>
+
+        <!-- footer -->
+        <div style="padding:24px 22px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:18px;font-size:14px;color:#555;">
+          <div><div style="font-family:'Caveat',cursive;font-size:22px;color:#1f1f1f;font-weight:700;">RAJMANDIR HYPERMARKET</div><div style="margin-top:6px;max-width:240px;">Delhi's leading food & grocery store. Sab kuch, ek chhat ke neeche.</div></div>
+          <div><b style="color:#1f1f1f;">Shop</b><br>Offers<br>Categories<br>Brands</div>
+          <div><b style="color:#1f1f1f;">Company</b><br>About<br>Stores<br>Careers</div>
+          <div><b style="color:#1f1f1f;">Connect</b><br>Instagram<br>Facebook<br>WhatsApp</div>
+        </div>
+
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== OFFERS ===================== -->
+    <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-family:'Caveat',cursive;font-size:20px;color:#777;">02 — Offers / Deals</div>
+      <div style="width:1080px;background:#fff;border:2px solid #1f1f1f;border-radius:3px;box-shadow:0 6px 24px rgba(0,0,0,.12);overflow:hidden;">
+
+        <div style="display:flex;align-items:center;gap:18px;padding:16px 22px;border-bottom:2px solid #1f1f1f;">
+          <div style="border:2px solid #1f1f1f;border-radius:3px;padding:8px 14px;font-family:'Caveat',cursive;font-weight:700;font-size:22px;line-height:1;">RAJMANDIR<br><span style="font-size:13px;letter-spacing:2px;">HYPERMARKET</span></div>
+          <div style="flex:1;display:flex;align-items:center;border:2px solid #1f1f1f;border-radius:30px;padding:9px 18px;color:#888;font-size:16px;">🔍 &nbsp;Search offers…</div>
+          <div style="display:flex;gap:18px;font-size:17px;"><span>Home</span><span style="border-bottom:2px solid #E5471B;padding-bottom:2px;">Offers</span><span>Stores</span><span>About</span></div>
+        </div>
+
+        <!-- page hero -->
+        <div style="padding:30px 22px;background:#E5471B;color:#fff;border-bottom:2px solid #1f1f1f;">
+          <div style="font-family:'Caveat',cursive;font-size:46px;font-weight:700;line-height:1;">Aaj ke Offers</div>
+          <div style="font-size:16px;opacity:.9;margin-top:4px;">Fresh deals daily across all 8 stores · Updated 18 June</div>
+        </div>
+
+        <!-- filter chips -->
+        <div style="padding:16px 22px;border-bottom:2px solid #1f1f1f;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:15px;color:#888;">Filter:</span>
+          <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="6">
+            <span style="border:2px solid #1f1f1f;border-radius:30px;padding:6px 14px;font-size:14px;">{{ ch }}</span>
+          </sc-for>
+        </div>
+
+        <!-- featured banner -->
+        <div style="margin:22px;border:2px solid #1f1f1f;border-radius:4px;display:flex;overflow:hidden;">
+          <div style="flex:1.2;padding:30px;display:flex;flex-direction:column;justify-content:center;gap:8px;background:repeating-linear-gradient(135deg,#fff,#fff 20px,#fcf3ef 20px,#fcf3ef 40px);">
+            <div style="font-family:'Caveat',cursive;font-size:20px;color:#E5471B;font-weight:700;">Deal of the Day</div>
+            <div style="font-family:'Caveat',cursive;font-size:40px;font-weight:700;line-height:1;">Atta · Dal · Tel<br>Combo Pack</div>
+            <div style="font-size:16px;color:#555;">Flat ₹300 off on the monthly essentials combo.</div>
+            <div style="background:#E5471B;color:#fff;border:2px solid #1f1f1f;border-radius:4px;padding:10px 18px;font-size:15px;display:inline-block;width:fit-content;margin-top:6px;">Grab Deal →</div>
+          </div>
+          <div style="flex:1;background:repeating-linear-gradient(45deg,#eee,#eee 11px,#f7f7f7 11px,#f7f7f7 22px);min-height:200px;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:13px;color:#999;border-left:2px dashed #bbb;">[ combo product shot ]</div>
+        </div>
+
+        <!-- deals grid -->
+        <div style="padding:0 22px 22px;">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+            <sc-for list="{{ offerGrid }}" as="d" hint-placeholder-count="8">
+              <div style="border:2px solid #1f1f1f;border-radius:4px;overflow:hidden;">
+                <div style="height:130px;background:repeating-linear-gradient(45deg,#eee,#eee 10px,#f7f7f7 10px,#f7f7f7 20px);border-bottom:2px dashed #bbb;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:12px;color:#999;position:relative;">
+                  <span style="position:absolute;top:8px;left:8px;background:#E5471B;color:#fff;font-size:12px;padding:2px 7px;border-radius:3px;">{{ d.off }}</span>
+                  [ product ]
+                </div>
+                <div style="padding:10px 12px;">
+                  <div style="font-size:15px;line-height:1.2;">{{ d.name }}</div>
+                  <div style="margin-top:6px;"><span style="font-family:'Caveat',cursive;font-size:22px;font-weight:700;">{{ d.price }}</span> <span style="color:#999;text-decoration:line-through;font-size:14px;">{{ d.mrp }}</span></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- coupon strip -->
+        <div style="margin:0 22px 24px;border:2px dashed #E5471B;border-radius:6px;padding:18px 22px;display:flex;align-items:center;gap:18px;background:#fcf3ef;">
+          <div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#E5471B;">RM200</div>
+          <div style="flex:1;font-size:15px;">Use code on bills above ₹2,000 · Valid in-store this week.</div>
+          <div style="border:2px solid #1f1f1f;border-radius:4px;padding:8px 16px;font-size:14px;background:#fff;">Copy Code</div>
+        </div>
+
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== STORE LOCATOR ===================== -->
+    <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-family:'Caveat',cursive;font-size:20px;color:#777;">03 — Store Locator</div>
+      <div style="width:1080px;background:#fff;border:2px solid #1f1f1f;border-radius:3px;box-shadow:0 6px 24px rgba(0,0,0,.12);overflow:hidden;">
+
+        <div style="display:flex;align-items:center;gap:18px;padding:16px 22px;border-bottom:2px solid #1f1f1f;">
+          <div style="border:2px solid #1f1f1f;border-radius:3px;padding:8px 14px;font-family:'Caveat',cursive;font-weight:700;font-size:22px;line-height:1;">RAJMANDIR<br><span style="font-size:13px;letter-spacing:2px;">HYPERMARKET</span></div>
+          <div style="flex:1;"></div>
+          <div style="display:flex;gap:18px;font-size:17px;"><span>Home</span><span>Offers</span><span style="border-bottom:2px solid #E5471B;padding-bottom:2px;">Stores</span><span>About</span></div>
+        </div>
+
+        <!-- title + search -->
+        <div style="padding:26px 22px;border-bottom:2px solid #1f1f1f;">
+          <div style="font-family:'Caveat',cursive;font-size:40px;font-weight:700;line-height:1;">Find a Store Near You</div>
+          <div style="font-size:16px;color:#555;margin-top:4px;margin-bottom:16px;">8 stores across North & West Delhi.</div>
+          <div style="display:flex;gap:10px;max-width:560px;">
+            <div style="flex:1;display:flex;align-items:center;border:2px solid #1f1f1f;border-radius:4px;padding:11px 16px;color:#888;font-size:16px;">📍 Enter pincode or area…</div>
+            <div style="background:#E5471B;color:#fff;border:2px solid #1f1f1f;border-radius:4px;padding:11px 22px;font-size:16px;">Search</div>
+          </div>
+        </div>
+
+        <!-- map + list -->
+        <div style="display:flex;">
+          <div style="flex:1.1;background:repeating-linear-gradient(45deg,#eee,#eee 13px,#f7f7f7 13px,#f7f7f7 26px);min-height:540px;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:14px;color:#999;border-right:2px solid #1f1f1f;text-align:center;">[ interactive map ]<br>Delhi · 8 numbered pins</div>
+          <div style="flex:1;max-height:540px;overflow:auto;">
+            <sc-for list="{{ stores }}" as="s" hint-placeholder-count="5">
+              <div style="padding:16px 18px;border-bottom:1.5px solid #ddd;display:flex;gap:14px;">
+                <div style="width:30px;height:30px;flex:none;border:2px solid #E5471B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Caveat',cursive;font-weight:700;color:#E5471B;">{{ s.n }}</div>
+                <div style="flex:1;">
+                  <div style="font-size:18px;font-family:'Caveat',cursive;font-weight:700;">{{ s.name }}</div>
+                  <div style="font-size:14px;color:#666;">{{ s.addr }}</div>
+                  <div style="font-size:13px;color:#E5471B;margin-top:3px;">🕘 {{ s.hours }}</div>
+                  <div style="display:flex;gap:8px;margin-top:8px;">
+                    <span style="border:2px solid #1f1f1f;border-radius:4px;padding:5px 12px;font-size:13px;">Directions</span>
+                    <span style="border:2px solid #1f1f1f;border-radius:4px;padding:5px 12px;font-size:13px;">Call</span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== ABOUT ===================== -->
+    <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-family:'Caveat',cursive;font-size:20px;color:#777;">04 — About Us</div>
+      <div style="width:1080px;background:#fff;border:2px solid #1f1f1f;border-radius:3px;box-shadow:0 6px 24px rgba(0,0,0,.12);overflow:hidden;">
+
+        <div style="display:flex;align-items:center;gap:18px;padding:16px 22px;border-bottom:2px solid #1f1f1f;">
+          <div style="border:2px solid #1f1f1f;border-radius:3px;padding:8px 14px;font-family:'Caveat',cursive;font-weight:700;font-size:22px;line-height:1;">RAJMANDIR<br><span style="font-size:13px;letter-spacing:2px;">HYPERMARKET</span></div>
+          <div style="flex:1;"></div>
+          <div style="display:flex;gap:18px;font-size:17px;"><span>Home</span><span>Offers</span><span>Stores</span><span style="border-bottom:2px solid #E5471B;padding-bottom:2px;">About</span></div>
+        </div>
+
+        <!-- hero statement -->
+        <div style="padding:48px 40px;border-bottom:2px solid #1f1f1f;text-align:center;background:repeating-linear-gradient(135deg,#fff,#fff 24px,#fcf3ef 24px,#fcf3ef 48px);">
+          <div style="font-family:'Caveat',cursive;font-size:22px;color:#E5471B;font-weight:700;">Hamari Kahani</div>
+          <div style="font-family:'Caveat',cursive;font-size:48px;font-weight:700;line-height:1.05;max-width:760px;margin:8px auto 0;">Har Indian ko mile high-quality saaman, affordable daam pe.</div>
+        </div>
+
+        <!-- mission two col -->
+        <div style="display:flex;border-bottom:2px solid #1f1f1f;">
+          <div style="flex:1;padding:34px;border-right:2px dashed #bbb;">
+            <div style="font-family:'Caveat',cursive;font-size:28px;font-weight:700;margin-bottom:10px;">Our Mission</div>
+            <div style="font-size:16px;color:#555;line-height:1.5;">We make an assortment of high-quality grocery products accessible, affordable and available — bringing together consumers, partners and manufacturers under one roof.</div>
+          </div>
+          <div style="flex:1;background:repeating-linear-gradient(45deg,#eee,#eee 12px,#f7f7f7 12px,#f7f7f7 24px);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:13px;color:#999;min-height:220px;">[ store / team photo ]</div>
+        </div>
+
+        <!-- stats -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid #1f1f1f;background:#fcf3ef;">
+          <div style="padding:24px;text-align:center;border-right:1.5px solid #e6d4cc;"><div style="font-family:'Caveat',cursive;font-size:34px;font-weight:700;color:#E5471B;">8</div><div style="font-size:14px;color:#666;">Stores</div></div>
+          <div style="padding:24px;text-align:center;border-right:1.5px solid #e6d4cc;"><div style="font-family:'Caveat',cursive;font-size:34px;font-weight:700;color:#E5471B;">18,000+</div><div style="font-size:14px;color:#666;">Products</div></div>
+          <div style="padding:24px;text-align:center;border-right:1.5px solid #e6d4cc;"><div style="font-family:'Caveat',cursive;font-size:34px;font-weight:700;color:#E5471B;">85K+</div><div style="font-size:14px;color:#666;">Followers</div></div>
+          <div style="padding:24px;text-align:center;"><div style="font-family:'Caveat',cursive;font-size:34px;font-weight:700;color:#E5471B;">1,000+</div><div style="font-size:14px;color:#666;">Brands</div></div>
+        </div>
+
+        <!-- values -->
+        <div style="padding:30px 22px;border-bottom:2px solid #1f1f1f;">
+          <div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;margin-bottom:16px;">What We Stand For</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+            <sc-for list="{{ values }}" as="v" hint-placeholder-count="3">
+              <div style="border:2px solid #1f1f1f;border-radius:4px;padding:18px;">
+                <div style="width:40px;height:40px;border:2px dashed #bbb;border-radius:6px;margin-bottom:10px;background:repeating-linear-gradient(45deg,#eee,#eee 6px,#f7f7f7 6px,#f7f7f7 12px);"></div>
+                <div style="font-family:'Caveat',cursive;font-size:22px;font-weight:700;">{{ v.t }}</div>
+                <div style="font-size:14px;color:#666;line-height:1.4;">{{ v.d }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- cta -->
+        <div style="padding:30px 22px;background:#1f1f1f;color:#fff;text-align:center;">
+          <div style="font-family:'Caveat',cursive;font-size:30px;font-weight:700;">Visit us this weekend</div>
+          <div style="font-size:15px;color:#ccc;margin-bottom:14px;">Wholesale Rate ka Hypermarket — ab aapke nazdeek.</div>
+          <div style="border:2px solid #fff;border-radius:4px;padding:10px 20px;font-size:15px;display:inline-block;">Find a Store →</div>
+        </div>
+
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { active: 'home' };
+
+  tab(active, key) {
+    const on = active === key;
+    return [
+      'font-family:inherit;font-size:15px;cursor:pointer;border-radius:5px;padding:8px 16px;',
+      'border:2px solid ' + (on ? '#E5471B' : '#666') + ';',
+      'background:' + (on ? '#E5471B' : 'transparent') + ';',
+      'color:#fff;'
+    ].join('');
+  }
+
+  renderVals() {
+    const a = this.state.active;
+    const set = (k) => () => this.setState({ active: k });
+    return {
+      isHome: a === 'home', isOffers: a === 'offers', isStores: a === 'stores', isAbout: a === 'about',
+      goHome: set('home'), goOffers: set('offers'), goStores: set('stores'), goAbout: set('about'),
+      tabHome: this.tab(a, 'home'), tabOffers: this.tab(a, 'offers'),
+      tabStores: this.tab(a, 'stores'), tabAbout: this.tab(a, 'about'),
+
+      cats: ['Fruits & Veg', 'Dairy & Eggs', 'Atta · Rice · Dal', 'Oil & Ghee', 'Snacks', 'Household', 'Personal Care', 'Beverages', 'Frozen', 'Baby Care', 'Cleaning', 'Apparel'],
+
+      deals: [
+        { name: 'Aashirvaad Atta 10kg', off: '22%', price: '₹399', mrp: '₹510' },
+        { name: 'Fortune Oil 5L', off: '18%', price: '₹749', mrp: '₹910' },
+        { name: 'Tata Salt 1kg ×4', off: '30%', price: '₹78', mrp: '₹112' },
+        { name: 'Amul Butter 500g', off: '12%', price: '₹245', mrp: '₹278' }
+      ],
+
+      chips: ['All', 'Staples', 'Dairy', 'Snacks', 'Household', 'Personal Care', 'Combos'],
+
+      offerGrid: [
+        { name: 'Basmati Rice 5kg', off: '25% OFF', price: '₹449', mrp: '₹599' },
+        { name: 'Toor Dal 2kg', off: '15% OFF', price: '₹289', mrp: '₹340' },
+        { name: 'Surf Excel 4kg', off: '20% OFF', price: '₹599', mrp: '₹749' },
+        { name: 'Maggi 12-pack', off: '10% OFF', price: '₹132', mrp: '₹148' },
+        { name: 'Tea 1kg', off: '18% OFF', price: '₹410', mrp: '₹500' },
+        { name: 'Sugar 5kg', off: '12% OFF', price: '₹235', mrp: '₹268' },
+        { name: 'Dish Bar ×6', off: '28% OFF', price: '₹90', mrp: '₹125' },
+        { name: 'Biscuits Combo', off: '22% OFF', price: '₹199', mrp: '₹255' }
+      ],
+
+      stores: [
+        { n: '1', name: 'Rohini Sector 16', addr: 'Plot 5, Sector 16, Rohini, Delhi 110089', hours: 'Open 9 AM – 10 PM' },
+        { n: '2', name: 'Pitampura', addr: 'Kushal Chowk, Pitampura, Delhi 110034', hours: 'Open 9 AM – 10 PM' },
+        { n: '3', name: 'Burari', addr: 'Main Rd, Burari, Delhi 110084', hours: 'Open 9 AM – 10 PM' },
+        { n: '4', name: 'Rani Bagh', addr: 'Pitampura Rd, Rani Bagh, Delhi 110034', hours: 'Open 9 AM – 10 PM' },
+        { n: '5', name: 'Lok Vihar', addr: 'Lok Vihar, Pitampura, Delhi 110034', hours: 'Open 9 AM – 10 PM' },
+        { n: '6', name: 'DC Chowk', addr: 'DC Chowk, Sector 9, Rohini, Delhi', hours: 'Open 9 AM – 10 PM' },
+        { n: '7', name: 'Prashant Vihar', addr: 'Prashant Vihar, Rohini, Delhi 110085', hours: 'Open 9 AM – 10 PM' },
+        { n: '8', name: 'Budh Vihar', addr: 'Budh Vihar Phase 1, Delhi 110086', hours: 'Open 9 AM – 10 PM' }
+      ],
+
+      values: [
+        { t: 'Affordable for All', d: 'High-quality products at wholesale prices, every single day.' },
+        { t: 'Sab Ek Chhat Ke Neeche', d: '18,000+ products across every category your family needs.' },
+        { t: 'Trusted Service', d: 'Friendly staff, clean aisles and easy billing — 7 days a week.' }
+      ]
+    };
+  }
+}
+</script>
+<script>
+addEventListener('load', () => {
+  (async () => {
+    try { await document.fonts.ready; } catch (e) {}
+    const imgs = Array.from(document.images).filter((i) => !i.complete);
+    await Promise.race([
+      Promise.allSettled(imgs.map((i) => i.decode())),
+      new Promise((r) => setTimeout(r, 8000)),
+    ]);
+    setTimeout(() => window.print(), 800);
+  })();
+});
+</script>
+</body>
+</html>

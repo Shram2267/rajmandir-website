@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#0B0908;}
+  @keyframes rmFloatA{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-22px) rotate(-3deg);}}
+  @keyframes rmFloatB{0%,100%{transform:translateY(0) rotate(4deg);}50%{transform:translateY(-30px) rotate(4deg);}}
+  @keyframes rmFloatC{0%,100%{transform:translateY(0) rotate(-6deg);}50%{transform:translateY(-16px) rotate(-6deg);}}
+  @keyframes rmGlow{0%,100%{opacity:.55;}50%{opacity:1;}}
+  @keyframes rmBob{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
+  @keyframes rmSpin{to{transform:rotate(360deg);}}
+  @keyframes rmMarquee{to{transform:translateX(-50%);}}
+  @keyframes rmPinPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,90,31,.55);}70%{box-shadow:0 0 0 14px rgba(255,90,31,0);}}
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="position:relative;background:#0B0908;color:#F4ECE4;font-family:'Hanken Grotesk',sans-serif;overflow-x:hidden;--accent:#FF5A1F;">
+
+  <!-- vignette overlay -->
+  <div style="position:fixed;inset:0;pointer-events:none;z-index:60;background:radial-gradient(120% 90% at 50% 25%,transparent 55%,rgba(0,0,0,.55) 100%);"></div>
+
+  <!-- NAV -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;gap:24px;padding:18px 40px;backdrop-filter:blur(14px);background:linear-gradient(180deg,rgba(11,9,8,.85),rgba(11,9,8,.25));border-bottom:1px solid rgba(255,255,255,.07);">
+    <div style="font-family:'Anton',sans-serif;font-size:24px;letter-spacing:1px;line-height:.9;">RAJMANDIR<span style="color:#FF5A1F;">.</span><div style="font-family:'Hanken Grotesk';font-size:9px;letter-spacing:5px;font-weight:700;color:#A89C94;">HYPERMARKET</div></div>
+    <div style="flex:1;"></div>
+    <div style="display:flex;gap:30px;font-size:14px;font-weight:600;color:#CDBFB4;">
+      <span style="cursor:pointer;">Offers</span><span style="cursor:pointer;">Categories</span><span style="cursor:pointer;">Stores</span><span style="cursor:pointer;">About</span>
+    </div>
+    <div style="background:#FF5A1F;color:#140B07;font-weight:800;font-size:14px;padding:11px 22px;border-radius:40px;cursor:pointer;box-shadow:0 8px 30px rgba(255,90,31,.45);">Download App</div>
+  </div>
+
+  <!-- ============ HERO STAGE ============ -->
+  <section style="position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:120px 24px 80px;">
+    <!-- spotlight -->
+    <div data-parallax-y="0.25" style="position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:1100px;height:1100px;background:radial-gradient(circle,rgba(255,90,31,.30) 0%,rgba(255,90,31,.10) 35%,transparent 65%);filter:blur(10px);"></div>
+    <!-- giant watermark -->
+    <div style="position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);font-family:'Anton',sans-serif;font-size:34vw;color:rgba(255,255,255,.025);line-height:1;letter-spacing:-1vw;pointer-events:none;white-space:nowrap;">RM</div>
+
+    <!-- floating product panels -->
+    <div data-depth="7" style="position:absolute;top:16%;left:7%;">
+      <div style="animation:rmFloatA 7s ease-in-out infinite;">
+        <div style="width:190px;height:230px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:repeating-linear-gradient(48deg,#1c1411,#1c1411 12px,#241a15 12px,#241a15 24px);box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 50px rgba(255,90,31,.18);transform:rotateY(16deg) rotateX(6deg);display:flex;align-items:flex-end;padding:14px;font-family:monospace;font-size:11px;color:#8a7b70;">staples · atta</div>
+      </div>
+    </div>
+    <div data-depth="11" style="position:absolute;top:22%;right:8%;">
+      <div style="animation:rmFloatB 8s ease-in-out infinite;">
+        <div style="width:150px;height:185px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:repeating-linear-gradient(48deg,#1c1411,#1c1411 12px,#241a15 12px,#241a15 24px);box-shadow:0 36px 70px rgba(0,0,0,.6),0 0 50px rgba(255,90,31,.16);transform:rotateY(-18deg) rotateX(5deg);display:flex;align-items:flex-end;padding:12px;font-family:monospace;font-size:11px;color:#8a7b70;">dairy</div>
+      </div>
+    </div>
+    <div data-depth="5" style="position:absolute;bottom:12%;left:13%;">
+      <div style="animation:rmFloatC 9s ease-in-out infinite;">
+        <div style="width:140px;height:140px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:repeating-linear-gradient(48deg,#1c1411,#1c1411 12px,#241a15 12px,#241a15 24px);box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 44px rgba(255,178,62,.18);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px;color:#8a7b70;">fresh</div>
+      </div>
+    </div>
+    <div data-depth="13" style="position:absolute;bottom:16%;right:12%;">
+      <div style="animation:rmFloatA 6.5s ease-in-out infinite;">
+        <div style="width:120px;height:150px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:repeating-linear-gradient(48deg,#1c1411,#1c1411 12px,#241a15 12px,#241a15 24px);box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 44px rgba(255,90,31,.16);transform:rotateY(20deg) rotateX(4deg);display:flex;align-items:flex-end;padding:10px;font-family:monospace;font-size:10px;color:#8a7b70;">oil · ghee</div>
+      </div>
+    </div>
+
+    <!-- center content -->
+    <div data-parallax-y="-0.12" style="position:relative;z-index:5;text-align:center;max-width:980px;">
+      <div style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,90,31,.5);border-radius:40px;padding:8px 18px;font-size:12px;font-weight:700;letter-spacing:2px;color:#FFB23E;margin-bottom:26px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#FF5A1F;animation:rmGlow 2s infinite;"></span>WHOLESALE RATE KA HYPERMARKET
+      </div>
+      <h1 style="font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(48px,8.5vw,124px);line-height:.92;letter-spacing:-.5px;margin:0;text-transform:uppercase;text-wrap:balance;">
+        Mahine ka<br>saara saaman,<br><span style="color:#FF5A1F;text-shadow:0 0 60px rgba(255,90,31,.5);">ek chhat</span> ke neeche.
+      </h1>
+      <p style="font-size:clamp(16px,1.5vw,21px);color:#C6B8AD;max-width:560px;margin:26px auto 0;line-height:1.5;">18,000+ products. 1,000+ brands. 8 stores across Delhi — at prices the whole mohalla talks about.</p>
+      <div style="display:flex;gap:14px;justify-content:center;margin-top:36px;flex-wrap:wrap;">
+        <div style="background:#FF5A1F;color:#140B07;font-weight:800;font-size:16px;padding:16px 32px;border-radius:46px;cursor:pointer;box-shadow:0 14px 44px rgba(255,90,31,.5);">Explore Today's Offers →</div>
+        <div style="border:1px solid rgba(255,255,255,.25);color:#F4ECE4;font-weight:700;font-size:16px;padding:16px 30px;border-radius:46px;cursor:pointer;backdrop-filter:blur(6px);">Find a Store</div>
+      </div>
+    </div>
+
+    <!-- scroll cue -->
+    <div style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:#7d6f64;font-size:11px;letter-spacing:3px;">
+      <span>SCROLL</span>
+      <div style="width:22px;height:36px;border:1.5px solid rgba(255,255,255,.25);border-radius:14px;display:flex;justify-content:center;padding-top:7px;"><span style="width:3px;height:7px;border-radius:3px;background:#FF5A1F;animation:rmBob 1.6s infinite;"></span></div>
+    </div>
+  </section>
+
+  <!-- ============ STATS BAND ============ -->
+  <section style="position:relative;padding:10px 40px 60px;">
+    <div data-reveal="1" style="opacity:0;transform:translateY(46px);transition:.9s cubic-bezier(.2,.7,.2,1);max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;">
+      <div style="background:#0F0C0A;padding:34px 20px;text-align:center;"><div data-count="18000" data-suffix="+" style="font-family:'Anton',sans-serif;font-size:46px;color:#FF5A1F;line-height:1;">0</div><div style="font-size:13px;letter-spacing:1px;color:#A89C94;margin-top:8px;">PRODUCTS</div></div>
+      <div style="background:#0F0C0A;padding:34px 20px;text-align:center;"><div data-count="1000" data-suffix="+" style="font-family:'Anton',sans-serif;font-size:46px;color:#FF5A1F;line-height:1;">0</div><div style="font-size:13px;letter-spacing:1px;color:#A89C94;margin-top:8px;">BRANDS</div></div>
+      <div style="background:#0F0C0A;padding:34px 20px;text-align:center;"><div data-count="8" data-suffix="" style="font-family:'Anton',sans-serif;font-size:46px;color:#FF5A1F;line-height:1;">0</div><div style="font-size:13px;letter-spacing:1px;color:#A89C94;margin-top:8px;">STORES IN DELHI</div></div>
+      <div style="background:#0F0C0A;padding:34px 20px;text-align:center;"><div data-count="85" data-suffix="K+" style="font-family:'Anton',sans-serif;font-size:46px;color:#FF5A1F;line-height:1;">0</div><div style="font-size:13px;letter-spacing:1px;color:#A89C94;margin-top:8px;">HAPPY FOLLOWERS</div></div>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORY SHELF (3D) ============ -->
+  <section style="position:relative;padding:60px 40px 90px;">
+    <div data-reveal="1" style="opacity:0;transform:translateY(46px);transition:.9s cubic-bezier(.2,.7,.2,1);max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:34px;">
+      <div>
+        <div style="font-size:13px;letter-spacing:3px;color:#FFB23E;font-weight:700;margin-bottom:10px;">SHOP BY AISLE</div>
+        <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(32px,4.5vw,60px);margin:0;line-height:.95;text-transform:uppercase;">Sab kuch milega.</h2>
+      </div>
+      <span style="color:#FF5A1F;font-weight:700;font-size:15px;cursor:pointer;">View all →</span>
+    </div>
+    <div style="max-width:1180px;margin:0 auto;perspective:1400px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="8">
+        <div data-reveal="1" data-reveal-delay="{{ c.delay }}" style="opacity:0;transform:translateY(46px);transition:.8s cubic-bezier(.2,.7,.2,1);">
+          <div style="position:relative;height:200px;border-radius:18px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#17110E,#0E0B09);overflow:hidden;cursor:pointer;transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s,border-color .4s;transform-style:preserve-3d;" style-hover="transform:translateY(-12px) scale(1.03);box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 50px rgba(255,90,31,.25);border-color:rgba(255,90,31,.55);">
+            <div style="position:absolute;top:16px;left:16px;width:56px;height:56px;border-radius:14px;background:repeating-linear-gradient(48deg,#241a15,#241a15 8px,#2c2018 8px,#2c2018 16px);border:1px solid rgba(255,255,255,.1);"></div>
+            <div style="position:absolute;bottom:18px;left:18px;right:18px;">
+              <div style="font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;line-height:1;">{{ c.name }}</div>
+              <div style="font-size:12px;color:#9a8c81;margin-top:5px;">{{ c.count }} items</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ DEALS SPOTLIGHT ============ -->
+  <section style="position:relative;padding:70px 40px 100px;background:linear-gradient(180deg,#0B0908,#120B08 50%,#0B0908);">
+    <div data-reveal="1" style="opacity:0;transform:translateY(46px);transition:.9s cubic-bezier(.2,.7,.2,1);text-align:center;margin-bottom:50px;">
+      <div style="font-size:13px;letter-spacing:3px;color:#FFB23E;font-weight:700;margin-bottom:10px;">🔥 AAJ KE DEALS</div>
+      <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(34px,5vw,68px);margin:0;line-height:.95;text-transform:uppercase;">Bachat, full cinematic.</h2>
+    </div>
+
+    <!-- pedestal -->
+    <div data-reveal="1" style="opacity:0;transform:translateY(46px);transition:.9s cubic-bezier(.2,.7,.2,1);position:relative;max-width:760px;margin:0 auto 40px;">
+      <div style="position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:540px;height:540px;background:radial-gradient(circle,rgba(255,90,31,.28),transparent 62%);animation:rmGlow 4s infinite;pointer-events:none;"></div>
+      <div style="position:relative;border:1px solid rgba(255,90,31,.4);border-radius:26px;background:linear-gradient(160deg,#1a120d,#0E0B09);box-shadow:0 50px 100px rgba(0,0,0,.6);overflow:hidden;display:flex;">
+        <div style="flex:1;padding:40px;display:flex;flex-direction:column;justify-content:center;gap:12px;">
+          <div style="display:inline-block;width:fit-content;background:#FF5A1F;color:#140B07;font-weight:800;font-size:13px;padding:6px 14px;border-radius:8px;">DEAL OF THE DAY · FLAT ₹300 OFF</div>
+          <div style="font-family:'Anton',sans-serif;font-size:clamp(30px,3.6vw,46px);line-height:.95;text-transform:uppercase;">Atta · Dal · Tel<br>Monthly Combo</div>
+          <div style="color:#C6B8AD;font-size:15px;">Ek family, ek mahina — pura ration ek box mein.</div>
+          <div style="display:flex;align-items:baseline;gap:12px;margin-top:6px;"><span style="font-family:'Anton',sans-serif;font-size:42px;color:#FF5A1F;">₹1,299</span><span style="text-decoration:line-through;color:#7d6f64;font-size:20px;">₹1,599</span></div>
+          <div style="background:#FF5A1F;color:#140B07;font-weight:800;width:fit-content;padding:13px 26px;border-radius:40px;margin-top:8px;cursor:pointer;box-shadow:0 12px 36px rgba(255,90,31,.45);">Grab the Combo →</div>
+        </div>
+        <div style="flex:.9;background:repeating-linear-gradient(48deg,#1c1411,#1c1411 14px,#241a15 14px,#241a15 28px);border-left:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:12px;color:#8a7b70;min-height:300px;">[ combo product shot ]</div>
+      </div>
+    </div>
+
+    <!-- deal cards -->
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+      <sc-for list="{{ deals }}" as="d" hint-placeholder-count="4">
+        <div data-reveal="1" data-reveal-delay="{{ d.delay }}" style="opacity:0;transform:translateY(46px);transition:.8s cubic-bezier(.2,.7,.2,1);">
+          <div style="border:1px solid rgba(255,255,255,.09);border-radius:18px;overflow:hidden;background:#100C0A;cursor:pointer;transition:transform .35s,box-shadow .35s,border-color .35s;" style-hover="transform:translateY(-8px);box-shadow:0 26px 50px rgba(0,0,0,.5),0 0 40px rgba(255,90,31,.18);border-color:rgba(255,90,31,.4);">
+            <div style="position:relative;height:150px;background:repeating-linear-gradient(48deg,#1c1411,#1c1411 12px,#241a15 12px,#241a15 24px);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px;color:#8a7b70;"><span style="position:absolute;top:10px;left:10px;background:#FF5A1F;color:#140B07;font-weight:800;font-size:12px;padding:3px 9px;border-radius:6px;">{{ d.off }}</span>[ product ]</div>
+            <div style="padding:14px 16px;">
+              <div style="font-size:15px;font-weight:600;line-height:1.25;">{{ d.name }}</div>
+              <div style="margin-top:8px;display:flex;align-items:baseline;gap:8px;"><span style="font-family:'Anton',sans-serif;font-size:24px;">{{ d.price }}</span><span style="text-decoration:line-through;color:#7d6f64;font-size:14px;">{{ d.mrp }}</span></div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ STORES BAND ============ -->
+  <section style="position:relative;padding:90px 40px;">
+    <div data-reveal="1" style="opacity:0;transform:translateY(46px);transition:.9s cubic-bezier(.2,.7,.2,1);max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+      <div>
+        <div style="font-size:13px;letter-spacing:3px;color:#FFB23E;font-weight:700;margin-bottom:12px;">8 STORES · OPEN 7 DAYS</div>
+        <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(32px,4.5vw,60px);margin:0 0 22px;line-height:.95;text-transform:uppercase;">Apne nazdeek,<br>roz khula.</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;">
+          <sc-for list="{{ stores }}" as="s" hint-placeholder-count="8">
+            <div style="display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);">
+              <span style="width:9px;height:9px;border-radius:50%;background:#FF5A1F;animation:rmPinPulse 2.6s infinite;flex:none;"></span>
+              <span style="font-size:15px;font-weight:600;">{{ s }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,.25);width:fit-content;padding:13px 26px;border-radius:40px;margin-top:26px;font-weight:700;cursor:pointer;">Open Store Locator →</div>
+      </div>
+      <div style="position:relative;height:440px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:radial-gradient(circle at 60% 40%,#1a120d,#0B0908 70%);box-shadow:0 40px 90px rgba(0,0,0,.5);">
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03),rgba(255,255,255,.03) 1px,transparent 1px,transparent 38px),repeating-linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.03) 1px,transparent 1px,transparent 38px);"></div>
+        <div style="position:absolute;top:30%;left:35%;width:13px;height:13px;border-radius:50%;background:#FF5A1F;animation:rmPinPulse 2.4s infinite;"></div>
+        <div style="position:absolute;top:52%;left:58%;width:13px;height:13px;border-radius:50%;background:#FF5A1F;animation:rmPinPulse 2.4s .6s infinite;"></div>
+        <div style="position:absolute;top:42%;left:46%;width:13px;height:13px;border-radius:50%;background:#FFB23E;animation:rmPinPulse 2.4s 1.1s infinite;"></div>
+        <div style="position:absolute;top:64%;left:30%;width:11px;height:11px;border-radius:50%;background:#FF5A1F;animation:rmPinPulse 2.4s 1.5s infinite;"></div>
+        <div style="position:absolute;top:24%;left:64%;width:11px;height:11px;border-radius:50%;background:#FF5A1F;animation:rmPinPulse 2.4s .3s infinite;"></div>
+        <div style="position:absolute;bottom:16px;left:18px;font-family:monospace;font-size:11px;color:#6f6259;">[ interactive Delhi map ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APP CTA ============ -->
+  <section style="position:relative;padding:60px 40px 110px;overflow:hidden;">
+    <div data-reveal="1" style="opacity:0;transform:translateY(46px);transition:.9s cubic-bezier(.2,.7,.2,1);max-width:1180px;margin:0 auto;border-radius:30px;border:1px solid rgba(255,90,31,.3);background:linear-gradient(120deg,#1a120d,#0E0B09);box-shadow:0 50px 100px rgba(0,0,0,.55);display:grid;grid-template-columns:1.2fr .8fr;align-items:center;overflow:hidden;padding:56px;gap:30px;position:relative;">
+      <div style="position:absolute;top:-40%;left:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,90,31,.22),transparent 60%);pointer-events:none;"></div>
+      <div style="position:relative;z-index:2;">
+        <div style="font-size:13px;letter-spacing:3px;color:#FFB23E;font-weight:700;margin-bottom:12px;">GHAR BAITHE ORDER</div>
+        <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(34px,4.5vw,60px);margin:0 0 16px;line-height:.95;text-transform:uppercase;">Pura bazaar,<br>aapki jeb mein.</h2>
+        <p style="color:#C6B8AD;font-size:16px;max-width:420px;margin:0 0 26px;">Offers, shopping lists aur doorstep delivery — sab kuch Rajmandir app par.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:11px 20px;font-weight:700;cursor:pointer;">▶ &nbsp;Google Play</div>
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:11px 20px;font-weight:700;cursor:pointer;">🍎 &nbsp;App Store</div>
+        </div>
+      </div>
+      <div data-depth="9" style="position:relative;z-index:2;display:flex;justify-content:center;perspective:1200px;">
+        <div style="animation:rmFloatB 7s ease-in-out infinite;">
+          <div style="width:230px;height:460px;border-radius:38px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(160deg,#241a15,#0E0B09);box-shadow:0 50px 90px rgba(0,0,0,.65),0 0 60px rgba(255,90,31,.2);transform:rotateY(-20deg) rotateX(6deg);padding:14px;">
+            <div style="height:100%;border-radius:26px;background:repeating-linear-gradient(48deg,#15100d,#15100d 14px,#1c1612 14px,#1c1612 28px);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px;color:#7d6f64;">[ app screen ]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="border-top:1px solid rgba(255,255,255,.08);padding:56px 40px 40px;">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;">
+      <div>
+        <div style="font-family:'Anton',sans-serif;font-size:26px;letter-spacing:1px;">RAJMANDIR<span style="color:#FF5A1F;">.</span></div>
+        <p style="color:#8a7b70;font-size:14px;max-width:280px;margin:12px 0 0;line-height:1.5;">Delhi's leading food & grocery store. Wholesale rate ka hypermarket — sab kuch, ek chhat ke neeche.</p>
+      </div>
+      <div style="font-size:14px;color:#9a8c81;line-height:2;"><b style="color:#F4ECE4;">Shop</b><br>Offers<br>Categories<br>Brands</div>
+      <div style="font-size:14px;color:#9a8c81;line-height:2;"><b style="color:#F4ECE4;">Company</b><br>About<br>Stores<br>Careers</div>
+      <div style="font-size:14px;color:#9a8c81;line-height:2;"><b style="color:#F4ECE4;">Connect</b><br>Instagram<br>Facebook<br>WhatsApp</div>
+    </div>
+    <div style="max-width:1180px;margin:36px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.07);font-size:12px;color:#6f6259;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <span>© 2026 Rajmandir Hypermarket. All rights reserved.</span>
+      <span>Privacy · Terms</span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;intensity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Subtle&quot;,&quot;Cinematic&quot;,&quot;Bold&quot;],&quot;default&quot;:&quot;Cinematic&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;parallax&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+
+  componentDidMount() {
+    const root = this.rootRef.current;
+    if (!root) return;
+
+    const intensity = this.props.intensity || 'Cinematic';
+    const mult = intensity === 'Subtle' ? 0.5 : intensity === 'Bold' ? 1.6 : 1;
+    const parallaxOn = this.props.parallax !== false;
+
+    // mouse parallax on floating depth layers
+    this._depth = [...root.querySelectorAll('[data-depth]')];
+    this._onMove = (e) => {
+      if (!parallaxOn) return;
+      const cx = e.clientX / window.innerWidth - 0.5;
+      const cy = e.clientY / window.innerHeight - 0.5;
+      this._depth.forEach((el) => {
+        const d = parseFloat(el.dataset.depth) * mult;
+        el.style.transform = `translate3d(${-cx * d * 4}px, ${-cy * d * 4}px, 0)`;
+      });
+    };
+    window.addEventListener('mousemove', this._onMove);
+
+    // scroll parallax
+    this._py = [...root.querySelectorAll('[data-parallax-y]')];
+    this._onScroll = () => {
+      const y = window.scrollY;
+      this._py.forEach((el) => {
+        const f = parseFloat(el.dataset.parallaxY);
+        const base = el.dataset.parallaxBase || '';
+        el.style.transform = `${base} translateY(${y * f}px)`;
+      });
+    };
+    // capture any existing translateX base (spotlight is centered)
+    this._py.forEach((el) => {
+      if (el.style.transform.includes('translateX')) el.dataset.parallaxBase = 'translateX(-50%)';
+    });
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+
+    // reveal + count-up (scroll/rAF based — does not rely on IntersectionObserver)
+    const animCount = (el) => {
+      if (el._counted) return;
+      el._counted = true;
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const dur = 1500, start = performance.now();
+      const step = (now) => {
+        const p = Math.min((now - start) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.floor(target * e).toLocaleString('en-IN') + (p < 1 ? '' : suffix);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = target.toLocaleString('en-IN') + suffix;
+      };
+      requestAnimationFrame(step);
+    };
+
+    const reveal = (el) => {
+      if (el._revealed) return;
+      el._revealed = true;
+      const delay = el.dataset.revealDelay || 0;
+      el.style.transitionDelay = delay + 'ms';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+      el.querySelectorAll('[data-count]').forEach((c) => animCount(c));
+      if (el.dataset.count) animCount(el);
+    };
+
+    this._reveals = [...root.querySelectorAll('[data-reveal]')];
+    this._counts = [...root.querySelectorAll('[data-count]')].filter((c) => !c.closest('[data-reveal]'));
+
+    let ticking = false;
+    this._checkReveals = () => {
+      ticking = false;
+      const trigger = window.innerHeight * 0.9;
+      this._reveals.forEach((el) => {
+        if (!el._revealed && el.getBoundingClientRect().top < trigger) reveal(el);
+      });
+      this._counts.forEach((el) => {
+        if (!el._counted && el.getBoundingClientRect().top < trigger) animCount(el);
+      });
+    };
+    this._onReveal = () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(this._checkReveals); }
+    };
+    window.addEventListener('scroll', this._onReveal, { passive: true });
+    window.addEventListener('resize', this._onReveal, { passive: true });
+    // immediate pass for whatever is already in view
+    this._checkReveals();
+    // safety net: force-reveal anything still hidden
+    this._revealTimer = setTimeout(() => {
+      this._reveals.forEach(reveal);
+      this._counts.forEach(animCount);
+    }, 1300);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mousemove', this._onMove);
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('scroll', this._onReveal);
+    window.removeEventListener('resize', this._onReveal);
+    if (this._revealTimer) clearTimeout(this._revealTimer);
+  }
+
+  renderVals() {
+    return {
+      rootRef: this.rootRef,
+      cats: [
+        { name: 'Fruits & Veg', count: '600+', delay: 0 },
+        { name: 'Atta·Rice·Dal', count: '900+', delay: 80 },
+        { name: 'Dairy & Eggs', count: '350+', delay: 160 },
+        { name: 'Oil & Ghee', count: '220+', delay: 240 },
+        { name: 'Snacks', count: '1,400+', delay: 0 },
+        { name: 'Household', count: '1,100+', delay: 80 },
+        { name: 'Personal Care', count: '1,800+', delay: 160 },
+        { name: 'Beverages', count: '700+', delay: 240 }
+      ],
+      deals: [
+        { name: 'Aashirvaad Atta 10kg', off: '22% OFF', price: '₹399', mrp: '₹510', delay: 0 },
+        { name: 'Fortune Oil 5L', off: '18% OFF', price: '₹749', mrp: '₹910', delay: 90 },
+        { name: 'Tata Salt 1kg ×4', off: '30% OFF', price: '₹78', mrp: '₹112', delay: 180 },
+        { name: 'Amul Butter 500g', off: '12% OFF', price: '₹245', mrp: '₹278', delay: 270 }
+      ],
+      stores: ['Rohini Sector 16', 'Pitampura', 'Burari', 'Rani Bagh', 'Lok Vihar', 'DC Chowk', 'Prashant Vihar', 'Budh Vihar']
+    };
+  }
+}
+</script>
+</body>
+</html>
