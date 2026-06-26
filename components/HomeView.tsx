@@ -6,6 +6,7 @@ import { useStore } from "@/components/StoreProvider";
 import { useOffers } from "@/components/OffersProvider";
 import StoreMenu from "@/components/StoreMenu";
 import OfferCard from "@/components/OfferCard";
+import HomeSlideshow from "@/components/HomeSlideshow";
 import {
   categories,
   categoryIcons,
@@ -97,6 +98,9 @@ export default function HomeView() {
           </div>
         </div>
       </section>
+
+      {/* ---------------- Slideshow (admin-managed banners) ---------------- */}
+      <HomeSlideshow />
 
       {/* ---------------- Top offers ---------------- */}
       <section className="border-b border-line">

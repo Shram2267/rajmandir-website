@@ -18,16 +18,13 @@ export default async function PamphletsPage() {
   const zonesList = Array.from(new Set((stores || []).map(s => s.area || "Other"))).sort();
   const finalZones = zonesList.length > 0 ? zonesList : ["North Delhi", "South Delhi", "East Delhi", "West Delhi", "NIT Faridabad"];
 
-  // Fetch all available pamphlets
-  const { data: pamphlets } = await supabase
-    .from("pamphlets")
-    .select("id, zone, image_url, file_name")
-    .order("created_at", { ascending: false });
+  // Fetch saved pages (one row per zone)
+  const { data: pages } = await supabase.from("pamphlet_pages").select("zone, blocks");
 
   return (
-    <PamphletOffersView 
-      pamphlets={pamphlets || []} 
-      zones={finalZones} 
+    <PamphletOffersView
+      pages={pages || []}
+      zones={finalZones}
     />
   );
 }

@@ -2,22 +2,31 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import type { TextStyle } from "@/lib/pamphletText";
 
-export async function uploadPamphlet(formData: FormData) {
+export type ImageItem = { url: string; fileName?: string };
+
+export type Block =
+  | { id: string; type: "text"; text: string; style?: TextStyle }
+  | { id: string; type: "images"; cols: number; items: (ImageItem | null)[] };
+
+const MAX_COLS = 4;
+
+// Upload one image to the shared "pamphlets" storage bucket and return its URL.
+export async function uploadPamphletImage(formData: FormData) {
   const supabase = await createClient();
-  const zone = formData.get("zone") as string;
+  const zone = (formData.get("zone") as string) || "shared";
   const file = formData.get("file") as File;
 
-  if (!zone || !file || file.size === 0) {
-    return { error: "Missing zone or file." };
+  if (!file || file.size === 0) {
+    return { error: "No file selected." };
   }
 
   const timestamp = Date.now();
   const safeFilename = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
   const storagePath = `${zone}/${timestamp}_${safeFilename}`;
 
-  // Upload to Supabase Storage bucket named 'pamphlets'
-  const { data: uploadData, error: uploadError } = await supabase.storage
+  const { error: uploadError } = await supabase.storage
     .from("pamphlets")
     .upload(storagePath, file);
 
@@ -26,55 +35,41 @@ export async function uploadPamphlet(formData: FormData) {
     return { error: `Failed to upload image: ${uploadError.message}` };
   }
 
-  // Get public URL
-  const { data: publicUrlData } = supabase.storage
-    .from("pamphlets")
-    .getPublicUrl(storagePath);
-
-  const imageUrl = publicUrlData.publicUrl;
-
-  // Insert record into pamphlets table
-  const { error: dbError } = await supabase.from("pamphlets").insert({
-    zone,
-    image_url: imageUrl,
-    file_name: file.name,
-  });
-
-  if (dbError) {
-    console.error("DB error:", dbError);
-    return { error: `Failed to save record: ${dbError.message}` };
-  }
-
-  revalidatePath("/admin/pamphlets");
-  revalidatePath("/pamphlets");
-  return { success: true };
+  const { data } = supabase.storage.from("pamphlets").getPublicUrl(storagePath);
+  return { success: true, url: data.publicUrl, fileName: file.name };
 }
 
-export async function deletePamphlet(id: number, imageUrl: string) {
+// Save the ordered list of blocks for a zone.
+export async function savePamphletPage(zone: string, blocks: Block[]) {
   const supabase = await createClient();
+  if (!zone) return { error: "No zone selected." };
 
-  // Extract storage path from the URL.
-  // The URL format is something like .../storage/v1/object/public/pamphlets/{path}
-  const urlParts = imageUrl.split("/pamphlets/");
-  if (urlParts.length === 2) {
-    const storagePath = urlParts[1];
-    
-    // Delete from storage
-    const { error: storageError } = await supabase.storage
-      .from("pamphlets")
-      .remove([storagePath]);
+  const cleanBlocks = (blocks || [])
+    .map((b): Block => {
+      if (b.type === "text") {
+        return { id: b.id, type: "text", text: b.text ?? "", style: b.style ?? "body" };
+      }
+      const cols = Math.max(1, Math.min(MAX_COLS, Math.round(b.cols || 1)));
+      const items: (ImageItem | null)[] = [];
+      for (let i = 0; i < cols; i++) {
+        const it = b.items?.[i];
+        items.push(it && it.url ? { url: it.url, fileName: it.fileName } : null);
+      }
+      return { id: b.id, type: "images", cols, items };
+    })
+    // Drop blocks with no content so the page stays clean.
+    .filter((b) =>
+      b.type === "text" ? b.text.trim() !== "" : b.items.some((it) => !!it),
+    );
 
-    if (storageError) {
-      console.error("Storage delete error:", storageError);
-      return { error: "Failed to delete file from storage." };
-    }
-  }
+  const { error } = await supabase.from("pamphlet_pages").upsert(
+    { zone, blocks: cleanBlocks, updated_at: new Date().toISOString() },
+    { onConflict: "zone" },
+  );
 
-  // Delete from DB
-  const { error: dbError } = await supabase.from("pamphlets").delete().eq("id", id);
-  if (dbError) {
-    console.error("DB delete error:", dbError);
-    return { error: "Failed to delete record from database." };
+  if (error) {
+    console.error("Save error:", error);
+    return { error: `Failed to save: ${error.message}` };
   }
 
   revalidatePath("/admin/pamphlets");

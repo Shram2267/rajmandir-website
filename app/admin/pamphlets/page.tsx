@@ -20,16 +20,13 @@ export default async function PamphletsAdminPage() {
   // If no stores exist, provide default zones to avoid empty state
   const finalZones = zonesList.length > 0 ? zonesList : ["North Delhi", "South Delhi", "East Delhi", "West Delhi", "NIT Faridabad"];
 
-  // Fetch pamphlets
-  const { data: pamphlets } = await supabase
-    .from("pamphlets")
-    .select("*")
-    .order("created_at", { ascending: false });
+  // Fetch saved pages (one row per zone)
+  const { data: pages } = await supabase.from("pamphlet_pages").select("zone, blocks");
 
   return (
-    <PamphletsAdminClient 
-      zones={finalZones} 
-      initialPamphlets={pamphlets || []} 
+    <PamphletsAdminClient
+      zones={finalZones}
+      pages={pages || []}
     />
   );
 }

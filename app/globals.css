@@ -195,6 +195,21 @@ dialog[open]::backdrop {
   animation: modal-fade 0.2s ease-out forwards;
 }
 
+/* Published pamphlet grid: stacks to 1 column on mobile, uses the admin-defined
+   column count (via --cols) from the sm breakpoint up. */
+.pamphlet-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+@media (min-width: 640px) {
+  .pamphlet-grid {
+    grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
 /* Typography for static content pages (legal, careers) */
 .doc-prose {
   color: var(--color-ink-soft);
