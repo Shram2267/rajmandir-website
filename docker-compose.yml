@@ -1,0 +1,23 @@
+# Deploys the Next.js site behind the VPS's existing Traefik reverse proxy.
+# Traefik (host-network mode) discovers this container via the labels below,
+# routes srv1763507.hstgr.cloud to it, and issues a Let's Encrypt certificate.
+#
+# Supabase keys are public (NEXT_PUBLIC_*) but are supplied at deploy time via
+# the project's .env so they are not committed to the repo.
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}
+    restart: unless-stopped
+    expose:
+      - "3000"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.rajmandir.rule=Host(`srv1763507.hstgr.cloud`)
+      - traefik.http.routers.rajmandir.entrypoints=websecure
+      - traefik.http.routers.rajmandir.tls.certresolver=letsencrypt
+      - traefik.http.services.rajmandir.loadbalancer.server.port=3000
