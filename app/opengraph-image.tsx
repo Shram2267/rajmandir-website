@@ -30,7 +30,7 @@ export default function OpengraphImage() {
             marginBottom: 24,
           }}
         >
-          ✦ Is hafte ki mega bachat
+          Is hafte ki mega bachat
         </div>
         <div
           style={{

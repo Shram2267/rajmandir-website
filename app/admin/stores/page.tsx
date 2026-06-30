@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { addStore, deleteStore } from "./actions";
+import { addStore } from "./actions";
 import AdminModal from "../AdminModal";
 import BulkUpload from "./BulkUpload";
 import StoresTableClient from "./StoresTableClient";
