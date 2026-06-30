@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useStore } from "@/components/StoreProvider";
 import { textStyleClass, textStyleTag, type TextStyle } from "@/lib/pamphletText";
 
 type ImageItem = { url: string; fileName?: string };
@@ -17,21 +18,87 @@ export default function PamphletOffersView({
   pages: PageRow[];
   zones: string[];
 }) {
+  const { store, stores } = useStore();
+
   const pageMap = useMemo(() => {
     const m: Record<string, PageRow> = {};
     for (const p of pages) m[p.zone] = p;
     return m;
   }, [pages]);
 
-  const zonesWithContent = zones.filter((z) => (pageMap[z]?.blocks?.length ?? 0) > 0);
-
-  const [selectedZone, setSelectedZone] = useState<string>(
-    zonesWithContent[0] || zones[0] || "",
+  // All zones (from the stores list), like the Stores tab — but without counts.
+  const zoneList = useMemo(
+    () =>
+      stores.length > 0
+        ? Array.from(new Set(stores.map((s) => s.area || "Other"))).sort()
+        : zones,
+    [stores, zones],
   );
+
+  // Default to the visitor's location (their selected store's zone); follows the
+  // store if they change/detect it. "All" shows every zone that has pamphlets.
+  const [selectedZone, setSelectedZone] = useState<string>(store?.area || "All");
+  useEffect(() => {
+    if (store?.area) setSelectedZone(store.area);
+  }, [store?.area]);
+
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
-  const blocks = pageMap[selectedZone]?.blocks ?? [];
-  const chips = zonesWithContent.length > 0 ? zonesWithContent : zones;
+  const hasBlocks = (z: string) => (pageMap[z]?.blocks?.length ?? 0) > 0;
+  const renderZones =
+    selectedZone === "All" ? zoneList.filter(hasBlocks) : [selectedZone];
+  const anyContent = renderZones.some(hasBlocks);
+
+  const pill = (active: boolean) =>
+    `flex-none text-[13px] lg:text-[14px] font-bold px-4 py-[7px] rounded-full transition-colors border cursor-pointer ${
+      active
+        ? "bg-brand border-brand text-white shadow-sm"
+        : "bg-white border-line text-stone-600 hover:text-brand hover:border-brand shadow-sm"
+    }`;
+
+  const renderBlocks = (blocks: Block[], keyPrefix: string) =>
+    blocks.map((block) => {
+      if (block.type === "text") {
+        const Tag = textStyleTag(block.style);
+        return (
+          <Tag
+            key={keyPrefix + block.id}
+            className={`whitespace-pre-wrap ${textStyleClass(block.style)}`}
+          >
+            {block.text}
+          </Tag>
+        );
+      }
+      const images = block.items.filter((it): it is ImageItem => !!it);
+      if (images.length === 0) return null;
+      return (
+        <div
+          key={keyPrefix + block.id}
+          className="pamphlet-grid"
+          style={{ ["--cols" as string]: String(block.cols) }}
+        >
+          {block.items.map((item, idx) =>
+            item ? (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setLightboxImage(item.url)}
+                className="block w-full rounded-[14px] overflow-hidden border border-line shadow-sm hover:shadow-md transition-shadow bg-white cursor-pointer"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.url}
+                  alt={`Offer in ${selectedZone}`}
+                  className="w-full h-auto object-contain"
+                />
+              </button>
+            ) : (
+              <div key={idx} aria-hidden />
+            ),
+          )}
+        </div>
+      );
+    });
 
   return (
     <div>
@@ -51,78 +118,47 @@ export default function PamphletOffersView({
       </div>
 
       <div className="mx-auto w-full max-w-[1180px] px-4 lg:px-6 py-[14px] lg:py-[22px]">
-        {/* filter pills */}
-        {chips.length > 0 && (
-          <div className="flex overflow-x-auto gap-[8px] pb-3 no-scrollbar border-b border-line">
-            {chips.map((z) => {
-              const active = selectedZone === z;
-              return (
-                <button
-                  key={z}
-                  type="button"
-                  onClick={() => setSelectedZone(z)}
-                  className={`flex-none text-[13px] lg:text-[14px] font-bold px-[18px] py-[8px] rounded-[24px] transition-colors border cursor-pointer ${
-                    active
-                      ? "bg-brand border-brand text-white"
-                      : "bg-white border-line text-stone-600 hover:text-ink hover:border-stone-400 shadow-sm"
+        {/* zone filter — all zones with store counts, like the Stores tab */}
+        <div className="flex flex-wrap gap-[8px] pb-3 border-b border-line">
+          <button type="button" onClick={() => setSelectedZone("All")} className={pill(selectedZone === "All")}>
+            All Zones
+          </button>
+          {zoneList.map((z) => (
+            <button key={z} type="button" onClick={() => setSelectedZone(z)} className={pill(selectedZone === z)}>
+              {z}
+              {hasBlocks(z) && (
+                <span
+                  title="Has offers"
+                  className={`ml-1.5 inline-block w-[7px] h-[7px] rounded-full align-middle ${
+                    selectedZone === z ? "bg-white" : "bg-leaf"
                   }`}
-                >
-                  {z}
-                </button>
-              );
-            })}
-          </div>
-        )}
+                />
+              )}
+            </button>
+          ))}
+        </div>
 
-        {/* blocks */}
-        <div className="mt-[20px] lg:mt-[30px] space-y-5 lg:space-y-7">
-          {blocks.length === 0 ? (
+        {/* content */}
+        <div className="mt-[20px] lg:mt-[30px]">
+          {!anyContent ? (
             <div className="text-center py-16 text-stone-500 font-medium">
-              No pamphlets available for {selectedZone}.
+              No pamphlets available{selectedZone !== "All" ? ` for ${selectedZone}` : ""}.
+            </div>
+          ) : selectedZone === "All" ? (
+            <div className="space-y-10">
+              {renderZones.map((z) => (
+                <section key={z}>
+                  <h2 className="text-[18px] lg:text-[20px] font-extrabold text-ink mb-4 pb-2 border-b border-line">
+                    {z}
+                  </h2>
+                  <div className="space-y-5 lg:space-y-7">{renderBlocks(pageMap[z].blocks, z + "-")}</div>
+                </section>
+              ))}
             </div>
           ) : (
-            blocks.map((block) => {
-              if (block.type === "text") {
-                const Tag = textStyleTag(block.style);
-                return (
-                  <Tag
-                    key={block.id}
-                    className={`whitespace-pre-wrap ${textStyleClass(block.style)}`}
-                  >
-                    {block.text}
-                  </Tag>
-                );
-              }
-              const images = block.items.filter((it): it is ImageItem => !!it);
-              if (images.length === 0) return null;
-              return (
-                <div
-                  key={block.id}
-                  className="pamphlet-grid"
-                  style={{ ["--cols" as string]: String(block.cols) }}
-                >
-                  {block.items.map((item, idx) =>
-                    item ? (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => setLightboxImage(item.url)}
-                        className="block w-full rounded-[14px] overflow-hidden border border-line shadow-sm hover:shadow-md transition-shadow bg-white cursor-pointer"
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={item.url}
-                          alt={`Offer in ${selectedZone}`}
-                          className="w-full h-auto object-contain"
-                        />
-                      </button>
-                    ) : (
-                      <div key={idx} aria-hidden />
-                    ),
-                  )}
-                </div>
-              );
-            })
+            <div className="space-y-5 lg:space-y-7">
+              {renderBlocks(pageMap[selectedZone]?.blocks ?? [], selectedZone + "-")}
+            </div>
           )}
         </div>
       </div>
