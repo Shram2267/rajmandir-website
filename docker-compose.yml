@@ -7,6 +7,16 @@ services:
   web:
     image: ghcr.io/shram2267/rajmandir-website:latest
     restart: unless-stopped
+    # Server-only secrets (offer sheet sync + WhatsApp alerts). These are NOT
+    # NEXT_PUBLIC_* values, so they're read at container start, not baked into
+    # the image — set them in a ".env" file next to this compose file on the
+    # VPS (docker compose loads it automatically; keep it out of git).
+    environment:
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - SNAPTO_PHONE_ID=${SNAPTO_PHONE_ID}
+      - SNAPTO_AUTH_TOKEN=${SNAPTO_AUTH_TOKEN}
+      - SNAPTO_NOTIFY_NUMBER=${SNAPTO_NOTIFY_NUMBER}
+      - SNAPTO_TEMPLATE_NAME=${SNAPTO_TEMPLATE_NAME}
     expose:
       - "3000"
     labels:

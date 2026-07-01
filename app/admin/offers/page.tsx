@@ -4,6 +4,7 @@ import { categories } from "@/lib/data";
 import AdminModal from "../AdminModal";
 import OffersTableClient from "./OffersTableClient";
 import OffersBulkUpload from "./OffersBulkUpload";
+import SheetSyncPanel from "./SheetSyncPanel";
 
 export default async function OffersAdminPage() {
   const supabase = await createClient();
@@ -28,6 +29,16 @@ export default async function OffersAdminPage() {
           title="Bulk Upload Offers"
         >
           <OffersBulkUpload />
+        </AdminModal>
+        <AdminModal
+          trigger={
+            <button className="bg-stone-100 text-stone-700 font-bold px-4 py-2.5 rounded-xl hover:bg-stone-200 transition-colors text-sm flex items-center gap-2 border border-line">
+              🔄 Sheet Sync
+            </button>
+          }
+          title="Google Sheet Auto-Sync"
+        >
+          <SheetSyncPanel />
         </AdminModal>
         <AdminModal
           trigger={
