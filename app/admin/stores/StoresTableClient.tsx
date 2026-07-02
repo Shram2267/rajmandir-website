@@ -4,16 +4,23 @@ import { useState } from "react";
 import StoreRowActions from "./StoreRowActions";
 import { bulkDeleteStores } from "./actions";
 import { useRouter } from "next/navigation";
+import Pagination from "../Pagination";
+
+const PAGE_SIZE = 20;
 
 export default function StoresTableClient({ stores }: { stores: any[] }) {
   const [selected, setSelected] = useState<number[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [bulkDeleteConfirming, setBulkDeleteConfirming] = useState(false);
+  const [page, setPage] = useState(1);
   const router = useRouter();
+
+  const pageCount = Math.max(1, Math.ceil(stores.length / PAGE_SIZE));
+  const pagedStores = stores.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   function handleSelectAll(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      setSelected(stores.map((s) => s.id));
+      setSelected(pagedStores.map((s) => s.id));
     } else {
       setSelected([]);
     }
@@ -64,7 +71,7 @@ export default function StoresTableClient({ stores }: { stores: any[] }) {
                   type="checkbox"
                   className="w-4 h-4 text-brand rounded border-stone-300"
                   onChange={handleSelectAll}
-                  checked={stores.length > 0 && selected.length === stores.length}
+                  checked={pagedStores.length > 0 && pagedStores.every((s) => selected.includes(s.id))}
                 />
               </th>
               <th className="sticky top-0 bg-stone-50 shadow-sm z-20 px-4 py-4 text-left text-xs font-bold text-stone-500 uppercase tracking-wider">S.No</th>
@@ -82,7 +89,7 @@ export default function StoresTableClient({ stores }: { stores: any[] }) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-line">
-            {stores?.map((store, index) => (
+            {pagedStores?.map((store, index) => (
               <tr key={store.id} className={`hover:bg-stone-50 transition-colors ${selected.includes(store.id) ? 'bg-red-50/50' : ''}`}>
                 <td className="px-4 py-3 whitespace-nowrap text-center">
                   <input
@@ -92,7 +99,7 @@ export default function StoresTableClient({ stores }: { stores: any[] }) {
                     onChange={(e) => handleSelect(store.id, e.target.checked)}
                   />
                 </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm font-bold text-brand">{index + 1}</td>
+                <td className="px-4 py-3 whitespace-nowrap text-sm font-bold text-brand">{(page - 1) * PAGE_SIZE + index + 1}</td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-stone-100 text-stone-600">
                     {store.short_name || "—"}
@@ -124,6 +131,8 @@ export default function StoresTableClient({ stores }: { stores: any[] }) {
           </tbody>
         </table>
       </div>
+
+      <Pagination page={page} pageCount={pageCount} onPageChange={setPage} />
 
       {bulkDeleteConfirming && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

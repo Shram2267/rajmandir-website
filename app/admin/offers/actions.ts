@@ -170,6 +170,22 @@ export async function bulkDeleteOffers(ids: number[]) {
   revalidatePath("/");
 }
 
+/** Deletes every offer, optionally scoped to one store (matches the admin table's store filter). */
+export async function deleteAllOffers(storeId?: number | null) {
+  const supabase = await createClient();
+
+  const query = supabase.from("offers").delete().gt("id", 0); // gt(0) = match every row
+  const { error } = await (storeId ? query.eq("store_id", storeId) : query);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath("/admin/offers");
+  revalidatePath("/offers");
+  revalidatePath("/");
+}
+
 export async function deleteOffer(id: number) {
   const supabase = await createClient();
 
