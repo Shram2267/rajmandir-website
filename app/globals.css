@@ -170,6 +170,32 @@ body {
   .animate-marquee { animation: none; }
 }
 
+/* Brand-logo marquee inside the homepage "network" diagram (desktop SVG).
+   One repeating unit = 4 logos × 96 user units = 384. Two copies are rendered
+   per row so translating by one unit loops seamlessly. */
+@keyframes rm-svg-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-384px); }
+}
+.rm-svg-marquee {
+  animation: rm-svg-marquee 22s linear infinite;
+  will-change: transform;
+}
+.rm-svg-marquee-rev {
+  animation-direction: reverse;
+}
+/* Flowing dashed centerline inside the coloured connector ribbons. */
+@keyframes rm-flow {
+  to { stroke-dashoffset: -160; }
+}
+.rm-flow {
+  animation: rm-flow 3s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rm-svg-marquee,
+  .rm-flow { animation: none; }
+}
+
 /* Visually hidden, still read by screen readers */
 .sr-only {
   position: absolute;

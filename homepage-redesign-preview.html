@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rajmandir — Homepage Redesign Preview (Hyperpure-inspired)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Caveat:wght@600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --sand: #ece3d6;
+    --cream: #fbf6ee;
+    --blush: #fbf1ec;
+    --peach: #f8e6df;
+    --linen: #f7efe6;
+    --ink: #211b17;
+    --ink-soft: #4a413a;
+    --brand: #e8492b;
+    --brand-deep: #c73a1f;
+    --brand-wash: #fbe7df;
+    --stone-600: #6e6258;
+    --stone-500: #8a7f73;
+    --stone-400: #a2937f;
+    --line: #eadfd2;
+    --leaf: #2e9e5b;
+    --leaf-deep: #1e7a45;
+    --leaf-wash: #e6f4ec;
+    --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+    --font-hand: "Caveat", cursive;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--sand); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+  a { text-decoration: none; color: inherit; }
+  .hand { font-family: var(--font-hand); }
+
+  /* Annotation ribbon so the client knows what they're looking at */
+  .note-ribbon { background: var(--ink); color: #fff; font-size: 13px; text-align: center; padding: 9px 16px; }
+  .note-ribbon b { color: #ffd08a; }
+
+  /* ---------- 1. Slim sticky header ---------- */
+  header { background: var(--cream); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
+  .hrow { display: flex; align-items: center; gap: 18px; padding: 12px 0; }
+  .logo { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 20px; color: var(--brand); white-space: nowrap; }
+  .logo .mark { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, var(--brand), #f5821f); display: grid; place-items: center; color: #fff; font-size: 18px; }
+  .store-pill { display: flex; align-items: center; gap: 7px; background: #fff; border: 1.5px solid var(--line); border-radius: 30px; padding: 7px 14px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .store-pill .lbl { font-size: 9px; letter-spacing: .8px; color: var(--stone-400); font-weight: 800; text-transform: uppercase; }
+  .search { flex: 1; display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid var(--line); border-radius: 30px; padding: 10px 18px; }
+  .search input { border: 0; outline: 0; flex: 1; font-size: 14px; background: transparent; font-family: inherit; }
+  nav.top { display: flex; gap: 20px; font-size: 14px; font-weight: 700; }
+  nav.top a { color: var(--stone-600); }
+  nav.top a.active { color: var(--brand); border-bottom: 2px solid var(--brand); padding-bottom: 3px; }
+  @media (max-width: 900px) { nav.top, .search { display: none; } }
+
+  /* ---------- 2. Hero (merged promo + offer-led) ---------- */
+  .hero { background: #f5821f; background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,.08) 0 2px, transparent 3px), radial-gradient(circle at 70% 60%, rgba(255,255,255,.08) 0 2px, transparent 3px); border-bottom: 1px solid var(--line); }
+  .hero-in { display: flex; align-items: center; justify-content: space-between; gap: 40px; padding: 46px 0; }
+  .hero .kick { font-family: var(--font-hand); font-size: 24px; color: #fff; font-weight: 700; margin-bottom: 8px; }
+  .hero h1 { font-size: 46px; line-height: 1.05; font-weight: 800; color: #fff; letter-spacing: -1px; max-width: 620px; }
+  .hero h1 .ink { color: var(--ink); }
+  .hero p { color: rgba(255,255,255,.92); font-size: 17px; margin-top: 16px; max-width: 480px; line-height: 1.5; }
+  .hero-cta { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; flex-shrink: 0; }
+  .btn-brand { background: var(--brand); color: #fff; font-weight: 800; font-size: 16px; padding: 15px 28px; border-radius: 40px; border: 0; box-shadow: 0 12px 30px rgba(232,73,43,.32); cursor: pointer; font-family: inherit; }
+  .btn-ghost { background: rgba(255,255,255,.15); color: #fff; border: 1.5px solid rgba(255,255,255,.5); font-weight: 700; font-size: 14px; padding: 12px 22px; border-radius: 40px; cursor: pointer; font-family: inherit; }
+  @media (max-width: 900px) { .hero-in { flex-direction: column; align-items: flex-start; gap: 22px; padding: 32px 0; } .hero h1 { font-size: 31px; } .hero-cta { align-items: flex-start; width: 100%; } }
+
+  /* ---------- 3. Trust stats strip (NEW, from Hyperpure) ---------- */
+  .stats { background: var(--cream); border-bottom: 1px solid var(--line); }
+  .stats-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 22px 0; text-align: center; }
+  .stats .num { font-size: 30px; font-weight: 800; color: var(--brand); line-height: 1; }
+  .stats .cap { font-size: 13px; color: var(--stone-600); margin-top: 5px; }
+  .stats > div + div { border-left: 1px solid var(--line); }
+  @media (max-width: 640px) { .stats-in { grid-template-columns: repeat(2, 1fr); gap: 18px 10px; } .stats .num { font-size: 23px; } .stats > div + div { border-left: 0; } }
+
+  /* ---------- 4. Category rails (NEW, core Hyperpure pattern) ---------- */
+  .rail-sec { border-bottom: 1px solid var(--line); padding: 30px 0; }
+  .rail-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 16px; }
+  .rail-head .title { display: flex; align-items: center; gap: 12px; }
+  .rail-head .ic { width: 42px; height: 42px; border-radius: 12px; background: var(--blush); display: grid; place-items: center; font-size: 22px; }
+  .rail-head h2 { font-size: 24px; font-weight: 800; letter-spacing: -.4px; }
+  .rail-head .sub { font-family: var(--font-hand); font-size: 18px; color: var(--brand); }
+  .rail-head .seeall { color: var(--brand); font-weight: 700; font-size: 14px; white-space: nowrap; background: var(--brand-wash); padding: 8px 16px; border-radius: 30px; }
+  .featured-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--brand); color: #fff; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; padding: 3px 8px; border-radius: 30px; }
+  .rail { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+  .rail::-webkit-scrollbar { height: 7px; }
+  .rail::-webkit-scrollbar-thumb { background: rgba(33,27,23,.15); border-radius: 7px; }
+
+  /* ---------- 5. Upgraded product card ---------- */
+  .card { flex: 0 0 210px; scroll-snap-align: start; background: #fff; border: 1.5px solid var(--line); border-radius: 16px; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer; }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 18px 38px rgba(33,27,23,.14); border-color: var(--brand); }
+  .card .imgwrap { position: relative; height: 150px; background: var(--linen); display: grid; place-items: center; font-size: 60px; border-bottom: 1.5px solid var(--line); }
+  .badge-off { position: absolute; top: 10px; left: 10px; background: var(--brand); color: #fff; font-weight: 800; font-size: 12px; padding: 4px 9px; border-radius: 8px; box-shadow: 0 4px 12px rgba(232,73,43,.35); }
+  .badge-stock { position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 5px; background: var(--leaf-wash); color: var(--leaf-deep); font-weight: 700; font-size: 11px; padding: 4px 9px; border-radius: 20px; }
+  .badge-stock .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--leaf); }
+  .card .body { padding: 12px 15px 15px; }
+  .card .brand { font-size: 11px; letter-spacing: .6px; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+  .card .name { font-size: 14px; font-weight: 600; line-height: 1.25; margin-top: 3px; min-height: 36px; }
+  .card .prices { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
+  .card .sale { font-family: var(--font-hand); font-size: 31px; font-weight: 700; color: var(--brand); line-height: 1; }
+  .card .mrp { font-size: 13px; color: var(--stone-400); text-decoration: line-through; font-weight: 600; }
+  .card .unit { font-size: 12px; color: var(--stone-500); margin-top: 4px; }        /* NEW: unit price */
+  .card .save { display: inline-block; margin-top: 8px; background: var(--leaf-wash); color: var(--leaf-deep); font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 7px; }  /* NEW: you-save + best rate */
+
+  /* ---------- 6. Category grid (photo-style tiles) ---------- */
+  .catgrid-sec { border-bottom: 1px solid var(--line); padding: 34px 0; }
+  .catgrid-sec h2 { font-size: 24px; font-weight: 800; }
+  .catgrid-sec .lead { color: var(--stone-600); font-size: 14px; margin: 4px 0 20px; }
+  .catgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .catgrid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 560px) { .catgrid { grid-template-columns: repeat(2, 1fr); } }
+  .tile { background: #fff; border: 1.5px solid var(--line); border-radius: 16px; padding: 16px 12px; text-align: center; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .tile:hover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(33,27,23,.1); border-color: var(--brand); }
+  .tile .ph { height: 78px; display: grid; place-items: center; font-size: 44px; background: var(--blush); border-radius: 12px; margin-bottom: 10px; }
+  .tile .nm { font-size: 14px; font-weight: 700; line-height: 1.2; }
+  .tile .ct { font-size: 12px; color: var(--stone-400); margin-top: 3px; }
+
+  /* ---------- 7. Testimonials + FAQ (NEW, from Hyperpure) ---------- */
+  .trust-sec { border-bottom: 1px solid var(--line); padding: 36px 0; }
+  .trust-sec .cen { text-align: center; margin-bottom: 26px; }
+  .trust-sec .cen .k { font-family: var(--font-hand); font-size: 22px; color: var(--brand); }
+  .trust-sec .cen h2 { font-size: 28px; font-weight: 800; letter-spacing: -.5px; }
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 800px) { .quotes { grid-template-columns: 1fr; } }
+  .quote { background: var(--cream); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .quote .stars { color: #f5a623; font-size: 15px; }
+  .quote p { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin: 8px 0 14px; }
+  .quote .who { display: flex; align-items: center; gap: 10px; }
+  .quote .av { width: 38px; height: 38px; border-radius: 50%; background: var(--brand-wash); display: grid; place-items: center; font-weight: 800; color: var(--brand); }
+  .quote .who .nm { font-size: 13px; font-weight: 700; }
+  .quote .who .mt { font-size: 12px; color: var(--stone-400); }
+
+  .faq { margin-top: 30px; max-width: 760px; margin-left: auto; margin-right: auto; }
+  .faq h3 { text-align: center; font-size: 22px; font-weight: 800; margin-bottom: 16px; }
+  details { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; }
+  summary { font-size: 15px; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--brand); font-size: 22px; font-weight: 700; }
+  details[open] summary::after { content: "\2013"; }
+  details p { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin-top: 10px; }
+
+  /* Footer + WhatsApp float */
+  footer { background: var(--ink); color: rgba(255,255,255,.7); font-size: 13px; padding: 26px 0; text-align: center; }
+  .wa { position: fixed; bottom: 22px; right: 22px; width: 56px; height: 56px; border-radius: 50%; background: #25d366; display: grid; place-items: center; font-size: 28px; box-shadow: 0 10px 26px rgba(37,211,102,.45); z-index: 60; }
+</style>
+</head>
+<body>
+
+<div class="note-ribbon">
+  📐 <b>PREVIEW MOCKUP</b> — Rajmandir homepage rebuilt with Hyperpure's patterns. Rails scroll sideways →. This is a static design demo, not the live site.
+</div>
+
+<!-- 1. SLIM STICKY HEADER -->
+<header>
+  <div class="wrap hrow">
+    <a class="logo"><span class="mark">R</span> Rajmandir</a>
+    <div class="store-pill"><span class="lbl">Aapka Store</span> 📍 Ashok Vihar ▾</div>
+    <div class="search">🔍 <input placeholder="Search offers, brands &amp; categories…" /></div>
+    <nav class="top">
+      <a class="active">Home</a>
+      <a>Today's Offers</a>
+      <a>Pamphlets</a>
+      <a>Stores</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 2. HERO (merged promo + offer-led) -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <div class="kick">Is hafte ki mega bachat ✦</div>
+      <h1>Mahine ka saara saaman, <span class="ink">ek chhat</span> ke neeche.</h1>
+      <p>Aaj ke offers dekho apne nazdeeki Rajmandir store par — wholesale rate ka hypermarket, sab fresh, sab ek jagah.</p>
+    </div>
+    <div class="hero-cta">
+      <button class="btn-brand">See Offers Near Me →</button>
+      <button class="btn-ghost">📍 Choose Your Store</button>
+    </div>
+  </div>
+</section>
+
+<!-- 3. TRUST STATS STRIP -->
+<section class="stats">
+  <div class="wrap stats-in">
+    <div><div class="num">63</div><div class="cap">stores in Delhi-NCR</div></div>
+    <div><div class="num">1,000+</div><div class="cap">items on offer today</div></div>
+    <div><div class="num">₹ Wholesale</div><div class="cap">rate, har item par</div></div>
+    <div><div class="num">Daily</div><div class="cap">offers updated</div></div>
+  </div>
+</section>
+
+<!-- 4a. RAIL: Top Offers (featured) -->
+<section class="rail-sec">
+  <div class="wrap">
+    <div class="rail-head">
+      <div class="title">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="sub">Top Offers at Ashok Vihar</span>
+            <span class="featured-tag">✦ Featured</span>
+          </div>
+          <div style="font-size:12px;color:var(--stone-400);margin-top:2px;display:flex;align-items:center;gap:6px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--leaf);display:inline-block;"></span>
+            Updated today · prices may vary by store
+          </div>
+        </div>
+      </div>
+      <a class="seeall">View all offers →</a>
+    </div>
+    <div class="rail">
+      <!-- card -->
+      <div class="card">
+        <div class="imgwrap">🧈<span class="badge-off">7% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Verka</div>
+          <div class="name">Verka Ghee 1 Ltr</div>
+          <div class="prices"><span class="sale">₹630</span><span class="mrp">₹680</span></div>
+          <div class="unit">₹630 / ltr</div>
+          <div class="save">✓ Sabse sasta · Save ₹50</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🛢️<span class="badge-off">27% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Pansari</div>
+          <div class="name">Pansari Mustard Oil 1 Ltr</div>
+          <div class="prices"><span class="sale">₹140</span><span class="mrp">₹192</span></div>
+          <div class="unit">₹140 / ltr</div>
+          <div class="save">✓ Sabse sasta · Save ₹52</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🍪<span class="badge-off">33% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Parle</div>
+          <div class="name">Parle-G Gluco Biscuit 800gm</div>
+          <div class="prices"><span class="sale">₹90</span><span class="mrp">₹135</span></div>
+          <div class="unit">₹112 / kg</div>
+          <div class="save">✓ Sabse sasta · Save ₹45</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🥛<span class="badge-off">13% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Mother Dairy</div>
+          <div class="name">Mother Dairy Ghee Tetra 1 Ltr</div>
+          <div class="prices"><span class="sale">₹560</span><span class="mrp">₹640</span></div>
+          <div class="unit">₹560 / ltr</div>
+          <div class="save">✓ Sabse sasta · Save ₹80</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🫙<span class="badge-off">50% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Ramdev</div>
+          <div class="name">Ramdev Hing Super 100gm</div>
+          <div class="prices"><span class="sale">₹125</span><span class="mrp">₹250</span></div>
+          <div class="unit">₹1,250 / kg</div>
+          <div class="save">✓ Sabse sasta · Save ₹125</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4b. RAIL: Atta, Rice & Dal -->
+<section class="rail-sec">
+  <div class="wrap">
+    <div class="rail-head">
+      <div class="title">
+        <div class="ic">🌾</div>
+        <div>
+          <h2>Atta, Rice &amp; Dal</h2>
+          <div class="sub">roz ki zaroorat, wholesale price</div>
+        </div>
+      </div>
+      <a class="seeall">See all →</a>
+    </div>
+    <div class="rail">
+      <div class="card">
+        <div class="imgwrap">🌾<span class="badge-off">15% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Aashirvaad</div>
+          <div class="name">Aashirvaad Atta 10 Kg</div>
+          <div class="prices"><span class="sale">₹465</span><span class="mrp">₹550</span></div>
+          <div class="unit">₹46.5 / kg</div>
+          <div class="save">✓ Sabse sasta · Save ₹85</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🍚<span class="badge-off">10% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Daawat</div>
+          <div class="name">Daawat Basmati Rice 5 Kg</div>
+          <div class="prices"><span class="sale">₹540</span><span class="mrp">₹600</span></div>
+          <div class="unit">₹108 / kg</div>
+          <div class="save">✓ Sabse sasta · Save ₹60</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🫘<span class="badge-off">18% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Tata Sampann</div>
+          <div class="name">Toor Dal 1 Kg</div>
+          <div class="prices"><span class="sale">₹145</span><span class="mrp">₹178</span></div>
+          <div class="unit">₹145 / kg</div>
+          <div class="save">✓ Sabse sasta · Save ₹33</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🌾<span class="badge-off">12% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">Fortune</div>
+          <div class="name">Chakki Fresh Atta 5 Kg</div>
+          <div class="prices"><span class="sale">₹235</span><span class="mrp">₹268</span></div>
+          <div class="unit">₹47 / kg</div>
+          <div class="save">✓ Sabse sasta · Save ₹33</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="imgwrap">🍚<span class="badge-off">8% OFF</span><span class="badge-stock"><span class="dot"></span>In Stock</span></div>
+        <div class="body">
+          <div class="brand">India Gate</div>
+          <div class="name">India Gate Feast Rice 5 Kg</div>
+          <div class="prices"><span class="sale">₹410</span><span class="mrp">₹445</span></div>
+          <div class="unit">₹82 / kg</div>
+          <div class="save">✓ Sabse sasta · Save ₹35</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. CATEGORY GRID (photo-style tiles) -->
+<section class="catgrid-sec">
+  <div class="wrap">
+    <h2 class="hand" style="font-size:24px;color:var(--ink);">Shop by Category</h2>
+    <div class="lead">Tap a category to see its offers at your store.</div>
+    <div class="catgrid">
+      <a class="tile"><div class="ph">🥛</div><div class="nm">Dairy &amp; Bakery</div><div class="ct">300+ items</div></a>
+      <a class="tile"><div class="ph">🌾</div><div class="nm">Atta, Rice &amp; Dal</div><div class="ct">900+ items</div></a>
+      <a class="tile"><div class="ph">🛢️</div><div class="nm">Masala &amp; Oil</div><div class="ct">1,200+ items</div></a>
+      <a class="tile"><div class="ph">🍫</div><div class="nm">Snacks &amp; Biscuits</div><div class="ct">450+ items</div></a>
+      <a class="tile"><div class="ph">🧴</div><div class="nm">Personal Care</div><div class="ct">1,000+ items</div></a>
+      <a class="tile"><div class="ph">🧽</div><div class="nm">Cleaning</div><div class="ct">1,100+ items</div></a>
+      <a class="tile"><div class="ph">☕</div><div class="nm">Tea, Coffee &amp; Milk</div><div class="ct">300+ items</div></a>
+      <a class="tile"><div class="ph">🍯</div><div class="nm">Sauces &amp; Spreads</div><div class="ct">260+ items</div></a>
+      <a class="tile"><div class="ph">🍼</div><div class="nm">Baby Care</div><div class="ct">200+ items</div></a>
+      <a class="tile"><div class="ph">🥜</div><div class="nm">Dry Fruits</div><div class="ct">180+ items</div></a>
+      <a class="tile"><div class="ph">🍞</div><div class="nm">Breakfast</div><div class="ct">450+ items</div></a>
+      <a class="tile"><div class="ph">🐾</div><div class="nm">Pet Care</div><div class="ct">150+ items</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- 6. TESTIMONIALS + FAQ -->
+<section class="trust-sec">
+  <div class="wrap">
+    <div class="cen">
+      <div class="k">Log kya kehte hain</div>
+      <h2>Delhi-NCR ke parivaaron ka bharosa</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Har mahine ka ration yahin se leti hoon. MRP se kaafi kam rate milta hai aur sab ek hi jagah. Time aur paisa dono bachta hai."</p>
+        <div class="who"><div class="av">S</div><div><div class="nm">Sunita Sharma</div><div class="mt">Rohini · Regular customer</div></div></div>
+      </div>
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Offers roz update hote hain, isliye pehle website par dekh leta hoon phir store jaata hoon. Wholesale rate genuinely sahi hai."</p>
+        <div class="who"><div class="av">A</div><div><div class="nm">Amit Verma</div><div class="mt">Pitampura · Weekly shopper</div></div></div>
+      </div>
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Bade parivaar ke liye 10kg atta, oil, dal sab sasta padta hai. Staff bhi helpful hai. Ab mera default store yahi hai."</p>
+        <div class="who"><div class="av">R</div><div><div class="nm">Rekha Gupta</div><div class="mt">Burari · Regular customer</div></div></div>
+      </div>
+    </div>
+
+    <div class="faq">
+      <h3>Aksar poochhe jaane waale sawaal</h3>
+      <details open><summary>Kya sabhi stores par ek hi offer milta hai?</summary><p>Zyada offers sabhi stores par same hote hain, lekin kuch prices store ke hisaab se thoda alag ho sakte hain. Website par apna store select karein taaki aapko sahi rate dikhe.</p></details>
+      <details><summary>Store timing kya hai?</summary><p>Zyadatar Rajmandir stores subah 9 baje se raat 9 baje tak khule rehte hain. Apne nazdeeki store ka exact time "Stores" page par dekhein.</p></details>
+      <details><summary>Kya aap home delivery karte hain?</summary><p>Abhi hum walk-in wholesale-rate shopping par focus karte hain. Naye offers ke liye WhatsApp par judein — har hafte ka pamphlet aapko mil jaayega.</p></details>
+      <details><summary>Offers kitni baar update hote hain?</summary><p>Offers roz update hote hain aur har hafte naya pamphlet aata hai. Homepage par "Updated today" tag se aapko pata chal jaata hai.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© Rajmandir Hypermarket · Wholesale Rate ka Hypermarket · Delhi-NCR mein 63 stores</div>
+</footer>
+
+<a class="wa" title="WhatsApp">💬</a>
+
+</body>
+</html>

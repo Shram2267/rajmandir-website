@@ -4,14 +4,21 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/components/StoreProvider";
 import { useOffers } from "@/components/OffersProvider";
-import StoreMenu from "@/components/StoreMenu";
 import OfferCard from "@/components/OfferCard";
 import HomeSlideshow from "@/components/HomeSlideshow";
+import NetworkSection from "@/components/NetworkSection";
 import {
   categories,
   categoryIcons,
   categoryCounts,
 } from "@/lib/data";
+
+const HOME_STATS = [
+  { value: "60+", label: "Stores across Delhi-NCR" },
+  { value: "50,000+", label: "Products in store" },
+  { value: "1 Lakh+", label: "Happy customers" },
+  { value: "20+", label: "Categories" },
+];
 
 const MAP_PINS = [
   { top: "15%", left: "55%", icon: "🍕", halo: "bg-yellow-400" },
@@ -36,37 +43,37 @@ export default function HomeView() {
 
   return (
     <div>
-      {/* ---------------- Hero ---------------- */}
-      <section className="rm-hero-food border-b border-line">
-        <div className="mx-auto w-full max-w-[1180px] px-4 lg:px-6 py-9 lg:py-14 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-10">
-          <div className="lg:flex-1">
-            <div className="font-hand text-[20px] lg:text-[24px] text-white font-bold mb-3">
-              Is hafte ki mega bachat ✦
-            </div>
-            <h1 className="text-[31px] lg:text-[52px] leading-[1.04] lg:leading-[1.05] font-extrabold m-0 tracking-[-.5px] lg:tracking-[-1px] max-w-[760px] text-balance text-white">
-              Mahine ka saara saaman, <span className="text-ink">ek chhat</span> ke neeche.
-            </h1>
-            <p className="text-[14px] lg:text-[17px] text-white/90 max-w-[520px] m-0 leading-[1.5] mt-5">
-              Browse aaj ke offers at your nearest Rajmandir store. Wholesale rate ka hypermarket —
-              sab fresh, sab ek jagah.
-            </p>
-          </div>
-          <div className="flex flex-col items-start lg:items-end gap-[13px] shrink-0">
-            <button
-              type="button"
-              onClick={findOffersNearMe}
-              disabled={locating}
-              className="bg-brand text-white font-extrabold text-[15px] lg:text-[16px] px-7 py-[15px] rounded-[40px] text-center shadow-[0_12px_30px_rgba(232,73,43,.32)] disabled:opacity-70"
-            >
-              {locating ? "📍 Locating…" : "See Offers Near Me →"}
-            </button>
-            <StoreMenu variant="ghost" />
+      {/* ---------------- Hero (admin-managed banner carousel) ---------------- */}
+      <HomeSlideshow
+        cta={{
+          label: locating ? "📍 Locating…" : "See Offers Near Me →",
+          onClick: findOffersNearMe,
+          disabled: locating,
+        }}
+      />
+
+      {/* ---------------- Stats strip ---------------- */}
+      <section className="border-b border-line bg-white">
+        <div className="mx-auto w-full max-w-[1180px] px-4 lg:px-6 py-8 lg:py-11">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-7">
+            {HOME_STATS.map((s, i) => (
+              <div
+                key={s.label}
+                className={`flex flex-col items-center text-center px-2 ${
+                  i % 2 !== 0 ? "border-l border-line" : ""
+                } lg:border-l ${i === 0 ? "lg:border-l-0" : ""}`}
+              >
+                <div className="text-brand font-extrabold text-[26px] lg:text-[38px] leading-none tracking-[-.5px]">
+                  {s.value}
+                </div>
+                <div className="text-[12px] lg:text-[14px] text-stone-500 font-bold mt-2">
+                  {s.label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-
-      {/* ---------------- Slideshow (admin-managed banners) ---------------- */}
-      <HomeSlideshow />
 
       {/* ---------------- Top offers ---------------- */}
       <section className="border-b border-line">
@@ -139,6 +146,9 @@ export default function HomeView() {
           </div>
         </div>
       </section>
+
+      {/* ---------------- Network diagram ---------------- */}
+      <NetworkSection />
 
       {/* ---------------- Map preview ---------------- */}
       <section className="border-b border-line">
