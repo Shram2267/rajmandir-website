@@ -11,6 +11,7 @@ const NAVIGATION = [
   { href: "/offers", label: "Today's Offers" },
   { href: "/pamphlets", label: "Pamphlet Offers" },
   { href: "/stores", label: "Stores" },
+  { href: "/blog", label: "Blogs" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact Us" },
 ];

@@ -7,6 +7,8 @@ import { useOffers } from "@/components/OffersProvider";
 import OfferCard from "@/components/OfferCard";
 import HomeSlideshow from "@/components/HomeSlideshow";
 import NetworkSection from "@/components/NetworkSection";
+import BlogCarousel from "@/components/BlogCarousel";
+import FaqSection from "@/components/FaqSection";
 import {
   categories,
   categoryIcons,
@@ -149,6 +151,12 @@ export default function HomeView() {
 
       {/* ---------------- Network diagram ---------------- */}
       <NetworkSection />
+
+      {/* ---------------- Blog carousel ---------------- */}
+      <BlogCarousel />
+
+      {/* ---------------- FAQ ---------------- */}
+      <FaqSection />
 
       {/* ---------------- Map preview ---------------- */}
       <section className="border-b border-line">

@@ -12,6 +12,7 @@ export default function AdminNav({ variant = "sidebar" }: { variant?: "sidebar" 
     { href: "/admin/offers", label: "🏷️ Offers" },
     { href: "/admin/pamphlets", label: "📄 Pamphlets" },
     { href: "/admin/slideshow", label: "🖼️ Slideshow" },
+    { href: "/admin/blog", label: "📝 Blog" },
   ];
 
   if (variant === "mobile") {

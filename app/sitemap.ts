@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 import { createPublicClient } from "@/lib/supabase/public";
 import { storeSlug } from "@/lib/stores";
+import { getPublishedPosts } from "@/lib/blog";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -11,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/offers", priority: 0.9, changeFrequency: "daily" },
     { path: "/pamphlets", priority: 0.8, changeFrequency: "weekly" },
     { path: "/stores", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/blog", priority: 0.6, changeFrequency: "weekly" },
     { path: "/about", priority: 0.5, changeFrequency: "yearly" },
     { path: "/contact", priority: 0.5, changeFrequency: "yearly" },
     { path: "/careers", priority: 0.4, changeFrequency: "monthly" },
@@ -41,5 +43,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // If the DB is unreachable at build, still emit the static routes.
   }
 
-  return [...base, ...storePages];
+  // Blog articles.
+  let blogPages: MetadataRoute.Sitemap = [];
+  try {
+    const posts = await getPublishedPosts();
+    blogPages = posts.map((p) => ({
+      url: `${SITE_URL}/blog/${p.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    }));
+  } catch {
+    // Ignore blog fetch failures at build time.
+  }
+
+  return [...base, ...storePages, ...blogPages];
 }
