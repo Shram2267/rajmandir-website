@@ -45,6 +45,14 @@ export default function HomeView() {
 
   return (
     <div>
+      {/* Primary page heading. The hero is an image carousel, so this keyword-rich
+          h1 gives crawlers and screen readers the page's main heading without
+          altering the visual design. */}
+      <h1 className="sr-only">
+        Rajmandir Hypermarket — Wholesale Rate ka Hypermarket in Delhi NCR. Today&apos;s
+        grocery, food &amp; household offers at your nearest store.
+      </h1>
+
       {/* ---------------- Hero (admin-managed banner carousel) ---------------- */}
       <HomeSlideshow
         cta={{

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createPublicClient } from "@/lib/supabase/public";
 import { storeSlug, findStoreBySlug, whatsappLink } from "@/lib/stores";
-import { formatOffer, type RawOffer } from "@/lib/offers";
+import { formatOffer, offerProductJsonLd, type RawOffer } from "@/lib/offers";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import OfferCard from "@/components/OfferCard";
 import JsonLd from "@/components/JsonLd";
@@ -75,6 +75,7 @@ export default async function StoreDetailPage({
     .eq("store_id", s.id)
     .order("id", { ascending: false });
   const offers = ((rawOffers as RawOffer[]) || []).map(formatOffer);
+  const visibleOffers = offers.slice(0, 12);
 
   const wa = whatsappLink(s.whatsapp, s.phone, `Hi! I have a question about the ${s.name} store.`);
   const tel = s.phone ? `tel:${s.phone}` : null;
@@ -114,9 +115,33 @@ export default async function StoreDetailPage({
     ],
   };
 
+  // Mark up the offers actually shown on this page as an ItemList of Products.
+  // Entries without a valid price are skipped so we never emit invalid data.
+  const pageUrl = `${SITE_URL}/stores/${slug}`;
+  const productItems = visibleOffers
+    .map((o) => offerProductJsonLd(o, pageUrl, SITE_NAME))
+    .filter((p): p is Record<string, unknown> => p !== null);
+
+  const offersItemListJsonLd =
+    productItems.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: `Offers at ${SITE_NAME} — ${s.name}`,
+          itemListElement: productItems.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: p,
+          })),
+        }
+      : null;
+
+  const jsonLd = [localBusinessJsonLd, breadcrumbJsonLd];
+  if (offersItemListJsonLd) jsonLd.push(offersItemListJsonLd);
+
   return (
     <div>
-      <JsonLd data={[localBusinessJsonLd, breadcrumbJsonLd]} />
+      <JsonLd data={jsonLd} />
 
       {/* hero */}
       <section className="rm-stripe border-b border-line">
@@ -197,7 +222,7 @@ export default async function StoreDetailPage({
 
           {offers.length > 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-[12px] lg:gap-[18px]">
-              {offers.slice(0, 12).map((o) => (
+              {visibleOffers.map((o) => (
                 <OfferCard key={o.id} offer={o} />
               ))}
             </div>

@@ -14,10 +14,11 @@ type Sort = "none" | "discount" | "price";
 export default function OffersView() {
   const { store, storeIndex } = useStore();
   const { offers, loading } = useOffers();
-  const { query: rawQuery, clear } = useSearch();
+  const { query: rawQuery, setQuery, clear } = useSearch();
   const searchParams = useSearchParams();
   const initialCat = searchParams.get("cat") ?? "All";
   const catParam = searchParams.get("cat");
+  const qParam = searchParams.get("q");
   const query = rawQuery.trim();
 
   const [cat, setCat] = useState<string>(initialCat);
@@ -43,6 +44,13 @@ export default function OffersView() {
     if (catParam) clear();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catParam]);
+
+  // Support shareable/linkable searches and the sitelinks searchbox:
+  // /offers?q=<term> seeds the shared search query on arrival.
+  useEffect(() => {
+    if (qParam) setQuery(qParam);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [qParam]);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase();

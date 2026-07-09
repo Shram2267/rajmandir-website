@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getPublishedPosts } from "@/lib/blog";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
@@ -52,14 +53,30 @@ export default async function BlogPostPage({
     description: post.excerpt || undefined,
     image: post.cover_url || undefined,
     datePublished: post.created_at,
-    author: { "@type": "Organization", name: SITE_NAME },
-    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    dateModified: post.created_at,
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
+    },
     mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: `${SITE_URL}/blog/${slug}` },
+    ],
   };
 
   return (
     <div>
-      <JsonLd data={[articleJsonLd]} />
+      <JsonLd data={[articleJsonLd, breadcrumbJsonLd]} />
 
       <article className="mx-auto w-full max-w-[800px] px-5 lg:px-10 py-8 lg:py-12">
         <nav className="text-[12px] text-stone-500 mb-4" aria-label="Breadcrumb">
@@ -78,9 +95,15 @@ export default async function BlogPostPage({
         )}
 
         {post.cover_url && (
-          <div className="mt-6 rounded-[18px] overflow-hidden border border-line">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={post.cover_url} alt={post.title} className="w-full h-auto object-cover" />
+          <div className="relative mt-6 aspect-[16/9] rounded-[18px] overflow-hidden border border-line">
+            <Image
+              src={post.cover_url}
+              alt={post.title}
+              fill
+              priority
+              sizes="(max-width: 800px) 100vw, 800px"
+              className="object-cover"
+            />
           </div>
         )}
 

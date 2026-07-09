@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getPublishedPosts } from "@/lib/blog";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 
@@ -48,13 +49,14 @@ export default async function BlogIndexPage() {
                   href={`/blog/${p.slug}`}
                   className="group flex flex-col rounded-[18px] border border-line bg-white overflow-hidden transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(33,27,23,.12)]"
                 >
-                  <div className="aspect-[16/10] bg-blush overflow-hidden">
+                  <div className="relative aspect-[16/10] bg-blush overflow-hidden">
                     {p.cover_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={p.cover_url}
                         alt={p.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-4xl">📝</div>

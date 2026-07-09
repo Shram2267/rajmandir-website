@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { brandValues } from "@/lib/data";
 import { createClient } from "@/lib/supabase/server";
 
@@ -50,12 +51,13 @@ export default async function AboutPage() {
             </p>
           </div>
           <div className="flex-1 lg:border-l border-line relative min-h-[240px] lg:min-h-auto overflow-hidden">
-             {/* eslint-disable-next-line @next/next/no-img-element */}
-             <img 
-               src="/Suresh Mittal.jpg" 
-               alt="Founder Mr. Suresh Mittal in Rajmandir Hypermarket"
-               className="absolute inset-0 w-full h-full object-cover object-top"
-             />
+            <Image
+              src="/Suresh Mittal.jpg"
+              alt="Founder Mr. Suresh Mittal in Rajmandir Hypermarket"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover object-top"
+            />
           </div>
         </div>
       </section>

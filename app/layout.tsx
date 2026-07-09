@@ -102,6 +102,14 @@ export default async function RootLayout({
       postalCode: CONTACT.postalCode,
       addressCountry: CONTACT.country,
     },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: CONTACT.phone,
+      email: CONTACT.email,
+      contactType: "customer service",
+      areaServed: "IN",
+      availableLanguage: ["en", "hi"],
+    },
     sameAs: SOCIAL_LINKS,
   };
 
@@ -110,6 +118,15 @@ export default async function RootLayout({
     "@type": "WebSite",
     name: SITE_NAME,
     url: SITE_URL,
+    // Enables the Google sitelinks search box; targets the offers search.
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/offers?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (

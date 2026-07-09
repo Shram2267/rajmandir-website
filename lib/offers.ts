@@ -75,6 +75,45 @@ export function formatOffer(o: RawOffer): FormattedOffer {
 }
 
 /**
+ * Build a schema.org Product node (with an Offer) for a formatted offer, or
+ * null when the data isn't complete/valid enough to mark up safely.
+ *
+ * Guard rails (to avoid Google Merchant "invalid/insufficient data" warnings):
+ *  - requires a positive numeric sale price
+ *  - only sets `image` when we have a resolvable photo URL
+ *  - only sets `brand` when present
+ * `pageUrl` is the canonical URL of the page the product appears on.
+ */
+export function offerProductJsonLd(
+  o: FormattedOffer,
+  pageUrl: string,
+  sellerName: string,
+): Record<string, unknown> | null {
+  const price = o.sale_price;
+  if (price == null || !Number.isFinite(price) || price <= 0) return null;
+
+  const product: Record<string, unknown> = {
+    "@type": "Product",
+    name: o.name,
+    category: o.cat,
+    offers: {
+      "@type": "Offer",
+      price: Number(price).toFixed(2),
+      priceCurrency: "INR",
+      availability: o.available
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      url: pageUrl,
+      seller: { "@type": "Organization", name: sellerName },
+    },
+  };
+  if (o.photo) product.image = o.photo;
+  if (o.brand) product.brand = { "@type": "Brand", name: o.brand };
+  if (o.itm_code) product.sku = o.itm_code;
+  return product;
+}
+
+/**
  * Convert a Google Drive share link to a directly-embeddable image URL.
  * Returns the input unchanged if it's already a normal URL, or null if empty.
  */

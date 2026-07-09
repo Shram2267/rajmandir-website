@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { createPublicClient } from "@/lib/supabase/public";
 
 type Slide = { id: number; image_url: string; file_name: string | null };
@@ -94,13 +95,16 @@ export default function HomeSlideshow({
           className="flex h-full transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
-          {slides.map((s) => (
-            <div key={s.id} className="flex-none w-full h-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+          {slides.map((s, i) => (
+            <div key={s.id} className="relative flex-none w-full h-full">
+              <Image
                 src={s.image_url}
                 alt={s.file_name || "Promotional banner"}
-                className="w-full h-full object-cover"
+                fill
+                // The first slide is the LCP element — load it eagerly.
+                priority={i === 0}
+                sizes="100vw"
+                className="object-cover"
                 draggable={false}
               />
             </div>
