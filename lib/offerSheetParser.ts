@@ -13,43 +13,88 @@ function excelSerialToISO(value: unknown): string | null {
   return isNaN(d.getTime()) ? null : d.toISOString();
 }
 
-function toNum(v: unknown): number | null {
-  if (v == null || v === "") return null;
-  const n = Number(v);
+/** Blank markers people commonly type into a sheet cell to mean "nothing". */
+const BLANK_MARKER = /^(n\/?a|na|none|null|nil|-+|—+)$/i;
+
+/**
+ * Parse a possibly-dirty numeric cell into a number. Handles currency symbols,
+ * thousands separators and stray spaces ("₹1,234.50", "Rs. 99", " 324 ") plus
+ * common blank markers ("-", "N/A"). Returns null when there's no usable number.
+ */
+function cleanNum(v: unknown): number | null {
+  if (v == null) return null;
+  if (typeof v === "number") return Number.isFinite(v) ? v : null;
+  const raw = String(v).trim();
+  if (!raw || BLANK_MARKER.test(raw)) return null;
+  // Drop thousands separators, then grab the first real number token. Matching
+  // (rather than stripping every non-digit) avoids stray punctuation like the
+  // "." in "Rs. 99" merging into the value.
+  const m = raw.replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
+  if (!m) return null;
+  const n = Number(m[0]);
   return Number.isFinite(n) ? n : null;
 }
 
-/** Like toNum but rounded to an integer (closing_stock is an INTEGER column). */
-function toInt(v: unknown): number | null {
-  const n = toNum(v);
-  return n == null ? null : Math.round(n);
+/** Money cleaner — a price must be positive, so 0/negatives become null. */
+function cleanPrice(v: unknown): number | null {
+  const n = cleanNum(v);
+  return n != null && n > 0 ? n : null;
+}
+
+/** Integer cleaner for stock — rounded and clamped to >= 0 (no negative stock). */
+function cleanInt(v: unknown): number | null {
+  const n = cleanNum(v);
+  if (n == null) return null;
+  return Math.max(0, Math.round(n));
+}
+
+/** Trim and collapse internal whitespace runs to a single space. */
+function cleanText(v: unknown): string {
+  return String(v ?? "").replace(/\s+/g, " ").trim();
+}
+
+/** Trim a photo URL; blank markers ("-", "N/A", …) collapse to "". */
+function cleanPhoto(v: unknown): string {
+  const s = String(v ?? "").trim();
+  return BLANK_MARKER.test(s) ? "" : s;
+}
+
+/** Lenient yes/y/true/1 → true; everything else → false. */
+function parseYes(v: unknown): boolean {
+  return /^(yes|y|true|1)$/i.test(String(v ?? "").trim());
 }
 
 /**
  * Maps rows from the "Offer Item" feed (ITM_CODE/ITM_NAME/Brand/... columns,
- * whether parsed from an uploaded .xlsx file or a Google Sheet CSV export)
- * into BulkOfferRow records ready for bulkUploadOffers / the sheet sync.
+ * whether parsed from an uploaded .xlsx file or a Google Sheet export) into
+ * BulkOfferRow records ready for bulkUploadOffers / the sheet sync.
+ *
+ * All values are cleaned here so both the manual Excel upload and the
+ * automatic Google Sheet sync write normalised data: prices stripped of
+ * currency symbols/commas, whitespace collapsed, blank markers ("-", "N/A")
+ * turned into empty/null, and invalid (0/negative) prices dropped so the site
+ * never shows "₹0" cards or emits invalid Product/Offer structured data.
  */
 export function parseOfferRows(json: Record<string, unknown>[]): BulkOfferRow[] {
   const rows: BulkOfferRow[] = [];
   for (const r of json) {
-    const name = String(r["ITM_NAME"] ?? "").trim();
-    const storeCode = String(r["STORE"] ?? "").trim();
+    const name = cleanText(r["ITM_NAME"]);
+    const storeCode = cleanText(r["STORE"]).toUpperCase();
     if (!name || !storeCode) continue; // require name + store
     rows.push({
-      itm_code: String(r["ITM_CODE"] ?? "").trim(),
+      itm_code: cleanText(r["ITM_CODE"]),
       name,
-      brand: String(r["Brand"] ?? "").trim(),
-      scheme_status: String(r["SchemeStatus"] ?? "").trim().toLowerCase() === "yes",
-      mrp: toNum(r["MRP"]),
-      sale_price: toNum(r["SalePrice"]),
-      closing_stock: toInt(r["ClosingStock"]),
-      remarks: String(r["Remarks"] ?? "").trim(),
+      brand: cleanText(r["Brand"]),
+      scheme_status: parseYes(r["SchemeStatus"]),
+      mrp: cleanPrice(r["MRP"]),
+      sale_price: cleanPrice(r["SalePrice"]),
+      closing_stock: cleanInt(r["ClosingStock"]),
+      remarks: cleanText(r["Remarks"]),
       fetch_time: excelSerialToISO(r["FetchTime"]),
       store_code: storeCode,
-      cat: String(r["CATEGORY"] ?? "").trim(),
-      photo1: String(r["Photo 1"] ?? "").trim(),
-      photo2: String(r["Photo 2"] ?? "").trim(),
+      cat: cleanText(r["CATEGORY"]),
+      photo1: cleanPhoto(r["Photo 1"]),
+      photo2: cleanPhoto(r["Photo 2"]),
     });
   }
   return rows;

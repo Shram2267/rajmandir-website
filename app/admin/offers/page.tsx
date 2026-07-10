@@ -6,9 +6,31 @@ import OffersTableClient from "./OffersTableClient";
 import OffersBulkUpload from "./OffersBulkUpload";
 import SheetSyncPanel from "./SheetSyncPanel";
 
+/**
+ * Supabase/PostgREST returns at most 1000 rows per request, so a plain
+ * `.select("*")` silently truncates once the offers table grows past 1000.
+ * Page through in 1000-row batches until a short page signals the end.
+ */
+async function fetchAllOffers(supabase: Awaited<ReturnType<typeof createClient>>) {
+  const PAGE = 1000;
+  const all: Record<string, unknown>[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await supabase
+      .from("offers")
+      .select("*")
+      .order("id", { ascending: false })
+      .range(from, from + PAGE - 1);
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) break;
+    all.push(...data);
+    if (data.length < PAGE) break; // last (partial) page reached
+  }
+  return all;
+}
+
 export default async function OffersAdminPage() {
   const supabase = await createClient();
-  const { data: offers } = await supabase.from("offers").select("*").order("id", { ascending: false });
+  const offers = await fetchAllOffers(supabase);
   const { data: stores } = await supabase.from("stores").select("id, n, name, area").order("name", { ascending: true });
   const storeList = stores || [];
 

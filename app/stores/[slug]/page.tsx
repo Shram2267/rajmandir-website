@@ -136,7 +136,7 @@ export default async function StoreDetailPage({
         }
       : null;
 
-  const jsonLd = [localBusinessJsonLd, breadcrumbJsonLd];
+  const jsonLd: Record<string, unknown>[] = [localBusinessJsonLd, breadcrumbJsonLd];
   if (offersItemListJsonLd) jsonLd.push(offersItemListJsonLd);
 
   return (
