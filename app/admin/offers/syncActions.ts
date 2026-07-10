@@ -89,8 +89,20 @@ export async function triggerSyncNow() {
  * so a failure partway through the store loop can leave a partial replace —
  * acceptable for this scale, but worth knowing if debugging a stuck sync.
  */
+/** Sync logs older than this are pruned on each run so the table stays small. */
+const LOG_RETENTION_DAYS = 30;
+
 export async function runSheetSync(trigger: "manual" | "scheduled") {
   const admin = createAdminClient();
+
+  // Housekeeping: drop old log rows so sheet_sync_logs doesn't grow forever.
+  // Best-effort — never let a prune failure abort the actual sync.
+  try {
+    const cutoff = new Date(Date.now() - LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000).toISOString();
+    await admin.from("sheet_sync_logs").delete().lt("run_at", cutoff);
+  } catch {
+    // ignore — pruning is non-critical
+  }
 
   const { data: settings, error: settingsError } = await admin
     .from("sheet_sync_settings")
