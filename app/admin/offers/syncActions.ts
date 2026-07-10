@@ -58,13 +58,15 @@ export async function saveSyncSettings(formData: FormData) {
   revalidatePath("/admin/offers");
 }
 
-export async function getSyncLogs(limit = 20): Promise<SyncLog[]> {
+/** Returns sync logs from the last `days` days (default 7), newest first. */
+export async function getSyncLogs(days = 7): Promise<SyncLog[]> {
   const supabase = await createClient();
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
   const { data, error } = await supabase
     .from("sheet_sync_logs")
     .select("*")
-    .order("run_at", { ascending: false })
-    .limit(limit);
+    .gte("run_at", since)
+    .order("run_at", { ascending: false });
   if (error) throw new Error(error.message);
   return data || [];
 }

@@ -26,7 +26,7 @@ export default function SheetSyncPanel() {
   const [enabled, setEnabled] = useState(false);
 
   const load = useCallback(async () => {
-    const [s, l] = await Promise.all([getSyncSettings(), getSyncLogs(20)]);
+    const [s, l] = await Promise.all([getSyncSettings(), getSyncLogs()]);
     setSettings(s);
     setLogs(l);
     setSpreadsheetId(s.spreadsheet_id || "");
@@ -173,9 +173,9 @@ export default function SheetSyncPanel() {
       )}
 
       <div>
-        <p className="text-xs font-bold text-stone-600 mb-2">Sync History</p>
+        <p className="text-xs font-bold text-stone-600 mb-2">Sync History (last 7 days)</p>
         {logs.length === 0 ? (
-          <p className="text-xs text-stone-400">No syncs yet.</p>
+          <p className="text-xs text-stone-400">No syncs in the last 7 days.</p>
         ) : (
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {logs.map((log) => (

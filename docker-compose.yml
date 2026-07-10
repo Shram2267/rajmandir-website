@@ -13,6 +13,9 @@ services:
     # VPS (docker compose loads it automatically; keep it out of git).
     environment:
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      # Required by /api/cron/sync-offers — without it the route 401s every
+      # ping and the scheduled offer sync can never run.
+      - CRON_SECRET=${CRON_SECRET}
       - SNAPTO_PHONE_ID=${SNAPTO_PHONE_ID}
       - SNAPTO_AUTH_TOKEN=${SNAPTO_AUTH_TOKEN}
       - SNAPTO_NOTIFY_NUMBER=${SNAPTO_NOTIFY_NUMBER}
@@ -25,3 +28,20 @@ services:
       - traefik.http.routers.rajmandir.entrypoints=websecure
       - traefik.http.routers.rajmandir.tls.certresolver=letsencrypt
       - traefik.http.services.rajmandir.loadbalancer.server.port=3000
+
+  # Lightweight in-stack scheduler: pings the cron route every 5 minutes so the
+  # app's own shouldRunNow() logic decides when the daily/weekly sync fires.
+  # Replaces the need for an external cron service (cron-job.org etc.). Reaches
+  # the web container by service name over the compose network; double-firing is
+  # harmless because the sync de-dupes on the last run time.
+  cron:
+    image: curlimages/curl:latest
+    restart: unless-stopped
+    depends_on:
+      - web
+    environment:
+      - CRON_SECRET=${CRON_SECRET}
+    entrypoint:
+      - sh
+      - -c
+      - 'while true; do curl -fsS -m 600 -H "Authorization: Bearer $$CRON_SECRET" http://web:3000/api/cron/sync-offers >/dev/null 2>&1 || true; sleep 300; done'
