@@ -31,14 +31,6 @@ function targetInstantFor(now: Date, timeOfDay: string): Date {
 }
 
 /**
- * How long after the scheduled time we'll still fire the sync. Needed
- * because there's no persistent process ticking every minute anymore — an
- * external cron service pings an API route every few minutes instead, so
- * "now" won't usually land exactly on the configured minute.
- */
-const FIRE_WINDOW_MS = 15 * 60 * 1000;
-
-/**
  * Decides whether a scheduled sync should fire right now, given the saved
  * settings and the most recent sync_logs.run_at (used to avoid firing twice
  * for the same scheduled slot across repeated cron pings).
@@ -52,9 +44,15 @@ export function shouldRunNow(
   if (settings.frequency === "weekly" && settings.day_of_week !== istWeekday(now)) return false;
 
   const target = targetInstantFor(now, settings.time_of_day);
-  const withinWindow = now.getTime() >= target.getTime() && now.getTime() < target.getTime() + FIRE_WINDOW_MS;
-  if (!withinWindow) return false;
 
+  // Fire once we've reached today's scheduled time. We deliberately do NOT cap
+  // how *late* we'll still fire: on Vercel's Hobby plan the daily cron trigger
+  // is only approximate (it can arrive up to ~an hour after the scheduled
+  // minute), so a tight upper window would silently skip the run — which is
+  // exactly the "auto-sync never happens" bug this endpoint exists to avoid.
+  // The lastRunAt >= target check de-dupes, so we still fire at most once per
+  // scheduled slot no matter how many times the cron pings.
+  if (now.getTime() < target.getTime()) return false;
   if (lastRunAt && lastRunAt.getTime() >= target.getTime()) return false;
 
   return true;
